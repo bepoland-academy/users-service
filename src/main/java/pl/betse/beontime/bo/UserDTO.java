@@ -6,6 +6,7 @@ import org.hibernate.validator.constraints.Length;
 import pl.betse.beontime.model.validation.CreateUserValidation;
 import pl.betse.beontime.model.validation.LoginUserValidation;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Set;
@@ -22,6 +23,7 @@ public class UserDTO {
 
     @NotNull(groups = {CreateUserValidation.class, LoginUserValidation.class})
     @NotEmpty(groups = {CreateUserValidation.class, LoginUserValidation.class})
+    @Email(groups = {CreateUserValidation.class, LoginUserValidation.class})
     private String emailLogin;
 
     private String firstName;
