@@ -11,8 +11,11 @@ import java.util.List;
 @Service
 public class DepartmentServiceImpl implements DepartmentService {
 
-    @Autowired
-    DepartamentRepository departamentRepository;
+    private DepartamentRepository departamentRepository;
+
+    public DepartmentServiceImpl(DepartamentRepository departamentRepository) {
+        this.departamentRepository = departamentRepository;
+    }
 
     @Override
     public DepartmentEntity findByName(String departmentName) {
@@ -24,6 +27,11 @@ public class DepartmentServiceImpl implements DepartmentService {
         List<DepartmentEntity> departments = new ArrayList<>();
         departamentRepository.findAll().forEach(departments::add);
         return departments;
+    }
+
+    @Override
+    public boolean existsById(Integer departmentId) {
+        return departamentRepository.existsById(departmentId);
     }
 
     @Override

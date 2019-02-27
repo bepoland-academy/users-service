@@ -2,6 +2,7 @@ package pl.betse.beontime.bo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
+import org.hibernate.validator.constraints.Length;
 import pl.betse.beontime.model.validation.CreateUserValidation;
 import pl.betse.beontime.model.validation.LoginUserValidation;
 

@@ -12,14 +12,15 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UsersService {
 
-    @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
+
+    public UserServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     public List<UserEntity> findAll() {
-        List<UserEntity> userEntityList = new ArrayList<>();
-        userRepository.findAll().forEach(userEntityList::add);
-        return userEntityList;
+        return userRepository.findAll();
     }
 
     @Override

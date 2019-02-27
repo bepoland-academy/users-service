@@ -1,60 +1,80 @@
 package pl.betse.beontime.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import pl.betse.beontime.bo.DepartmentDTO;
 import pl.betse.beontime.bo.UserDTO;
+import pl.betse.beontime.entity.DepartmentEntity;
 import pl.betse.beontime.entity.UserEntity;
+import pl.betse.beontime.model.custom_exceptions.DepartmentNotFoundException;
+import pl.betse.beontime.model.custom_exceptions.EmptyDepartmentListException;
+import pl.betse.beontime.model_mapper.DepartmentModelMapper;
 import pl.betse.beontime.service.DepartmentService;
 import pl.betse.beontime.service.RoleService;
 import pl.betse.beontime.service.UsersService;
-import pl.betse.beontime.utils.DTOResponseConstructor;
+import pl.betse.beontime.utils.CustomResponseMessage;
+import pl.betse.beontime.utils.UserDTOListBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/departments")
+@CrossOrigin("*")
 public class DepartmentController {
 
 
-    @Autowired
-    UsersService usersService;
+    private UsersService usersService;
+    private RoleService roleService;
+    private DepartmentService departmentService;
 
-    @Autowired
-    RoleService roleService;
-
-    @Autowired
-    DepartmentService departmentService;
-
+    public DepartmentController(UsersService usersService, RoleService roleService, DepartmentService departmentService) {
+        this.usersService = usersService;
+        this.roleService = roleService;
+        this.departmentService = departmentService;
+    }
 
     @GetMapping
     public List<DepartmentDTO> getDepartmentWithUsers() {
 
         List<DepartmentDTO> departmentList = new ArrayList<>();
-
-
         departmentService.findAll().forEach(department -> {
 
             List<UserDTO> userList = new ArrayList<>();
-
             for (UserEntity user : usersService.findByDepartmentEntity(departmentService.getDepartmentById(department.getId()))) {
-                DTOResponseConstructor.buildUserDTOListWithRoles(userList, user);
+                UserDTOListBuilder.build(userList, user);
             }
 
-
-            departmentList.add(new DepartmentDTO().builder()
-                    .id(department.getId())
-                    .name(department.getName())
-                    .users(userList)
-                    .build());
+            DepartmentDTO departmentDTO = DepartmentModelMapper.fromDepartmentEntityToDepartmentDTO(department);
+            departmentDTO.setUsers(userList);
+            departmentList.add(departmentDTO);
         });
 
+        if (departmentList.isEmpty()) {
+            throw new EmptyDepartmentListException();
+        }
 
         return departmentList;
+    }
 
+    @GetMapping(path = "/{id}")
+    public DepartmentDTO getDepartmentByIdWithUsers(@PathVariable("id") String departmentId) {
+
+        if (!departmentService.existsById(Integer.valueOf(departmentId))) {
+            throw new DepartmentNotFoundException();
+        }
+
+        DepartmentDTO departmentDTO = DepartmentModelMapper.fromDepartmentEntityToDepartmentDTO(departmentService.getDepartmentById(Integer.valueOf(departmentId)));
+
+        List<UserDTO> userList = new ArrayList<>();
+        for (UserEntity user : usersService.findByDepartmentEntity(departmentService.getDepartmentById(departmentDTO.getId()))) {
+            UserDTOListBuilder.build(userList, user);
+        }
+
+        departmentDTO.setUsers(userList);
+
+        return departmentDTO;
     }
 
 

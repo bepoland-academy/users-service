@@ -11,6 +11,10 @@ public interface RoleService {
 
     RoleEntity findByName(String roleName);
 
+    RoleEntity findById(Integer roleId);
+
+    boolean existsById(Integer roleId);
+
     void save(RoleEntity roleEntity);
 
 }

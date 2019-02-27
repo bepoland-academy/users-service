@@ -13,5 +13,7 @@ public interface DepartmentService {
 
     List<DepartmentEntity> findAll();
 
+    boolean existsById(Integer departmentId);
+
     DepartmentEntity getDepartmentById(Integer departmentId);
 }

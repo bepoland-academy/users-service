@@ -11,14 +11,22 @@ import java.util.List;
 @Service
 public class RoleServiceImpl implements RoleService {
 
-    @Autowired
-    RoleRepository roleRepository;
+    private RoleRepository roleRepository;
+
+    public RoleServiceImpl(RoleRepository roleRepository) {
+        this.roleRepository = roleRepository;
+    }
 
     @Override
     public List<RoleEntity> findAll() {
         List<RoleEntity> roles = new ArrayList<>();
         roleRepository.findAll().forEach(roles::add);
         return roles;
+    }
+
+    @Override
+    public RoleEntity findById(Integer roleId) {
+        return roleRepository.findById(roleId).get();
     }
 
     @Override
@@ -29,5 +37,10 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public void save(RoleEntity roleEntity) {
         roleRepository.save(roleEntity);
+    }
+
+    @Override
+    public boolean existsById(Integer roleId) {
+        return roleRepository.existsById(roleId);
     }
 }

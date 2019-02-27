@@ -1,6 +1,7 @@
 package pl.betse.beontime.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import pl.betse.beontime.model.enums.DepartmentEnum;
@@ -8,6 +9,7 @@ import pl.betse.beontime.model.enums.DepartmentEnum;
 import javax.persistence.*;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
