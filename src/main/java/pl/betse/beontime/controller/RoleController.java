@@ -9,10 +9,7 @@ import pl.betse.beontime.bo.RoleDTO;
 import pl.betse.beontime.bo.UserDTO;
 import pl.betse.beontime.model.custom_exceptions.EmptyRoleListException;
 import pl.betse.beontime.model.custom_exceptions.RoleNotFoundException;
-import pl.betse.beontime.service.DepartmentService;
 import pl.betse.beontime.service.RoleService;
-import pl.betse.beontime.service.UsersService;
-import pl.betse.beontime.utils.CustomResponseMessage;
 import pl.betse.beontime.utils.UserDTOListBuilder;
 
 import java.util.ArrayList;
@@ -24,13 +21,9 @@ import java.util.List;
 public class RoleController {
 
 
-    private UsersService usersService;
-    private DepartmentService departmentService;
     private RoleService roleService;
 
-    public RoleController(UsersService usersService, DepartmentService departmentService, RoleService roleService) {
-        this.usersService = usersService;
-        this.departmentService = departmentService;
+    public RoleController(RoleService roleService) {
         this.roleService = roleService;
     }
 
@@ -47,7 +40,7 @@ public class RoleController {
             roleList.add(RoleDTO.builder().role(x.getRole()).id(x.getId()).users(usersList).build());
         });
 
-        if(roleList.isEmpty()){
+        if (roleList.isEmpty()) {
             throw new EmptyRoleListException();
         }
 
