@@ -66,7 +66,11 @@ public class ErrorHandlerController extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        return new ResponseEntity<>(new CustomResponseMessage(HttpStatus.BAD_REQUEST, ex.getMessage()), HttpStatus.BAD_REQUEST);
+        StringBuilder builder = new StringBuilder();
+        builder.append(ex.getMethod());
+        builder.append(" method is not supported for this request. Supported methods are: ");
+        ex.getSupportedHttpMethods().forEach(t -> builder.append(t).append(" "));
+        return new ResponseEntity<>(new CustomResponseMessage(HttpStatus.METHOD_NOT_ALLOWED, builder.toString()), HttpStatus.METHOD_NOT_ALLOWED);
     }
 
 }
