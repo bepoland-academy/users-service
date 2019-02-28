@@ -1,19 +1,14 @@
 package pl.betse.beontime.controller;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.betse.beontime.bo.DepartmentDTO;
 import pl.betse.beontime.bo.UserDTO;
-import pl.betse.beontime.entity.DepartmentEntity;
 import pl.betse.beontime.entity.UserEntity;
 import pl.betse.beontime.model.custom_exceptions.DepartmentNotFoundException;
 import pl.betse.beontime.model.custom_exceptions.EmptyDepartmentListException;
 import pl.betse.beontime.model_mapper.DepartmentModelMapper;
 import pl.betse.beontime.service.DepartmentService;
-import pl.betse.beontime.service.RoleService;
 import pl.betse.beontime.service.UsersService;
-import pl.betse.beontime.utils.CustomResponseMessage;
 import pl.betse.beontime.utils.UserDTOListBuilder;
 
 import java.util.ArrayList;
@@ -26,12 +21,10 @@ public class DepartmentController {
 
 
     private UsersService usersService;
-    private RoleService roleService;
     private DepartmentService departmentService;
 
-    public DepartmentController(UsersService usersService, RoleService roleService, DepartmentService departmentService) {
+    public DepartmentController(UsersService usersService, DepartmentService departmentService) {
         this.usersService = usersService;
-        this.roleService = roleService;
         this.departmentService = departmentService;
     }
 
