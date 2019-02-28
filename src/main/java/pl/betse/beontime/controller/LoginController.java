@@ -27,6 +27,7 @@ public class LoginController {
     public @ResponseBody
     UserDTO checkUserCredentials(@RequestBody @Validated(LoginUserValidation.class) UserDTO incomingUserCredentials) {
 
+
         if (!usersService.existsByEmailLogin(incomingUserCredentials.getEmailLogin())) {
             throw new UserBadCredentialException();
         }

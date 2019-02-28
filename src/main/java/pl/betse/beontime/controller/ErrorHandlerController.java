@@ -20,7 +20,7 @@ public class ErrorHandlerController extends ResponseEntityExceptionHandler {
     @ExceptionHandler({UserNotFoundException.class})
     public @ResponseBody
     ResponseEntity<?> sendUserNotFoundMessage() {
-        return new ResponseEntity<>(new CustomResponseMessage(HttpStatus.BAD_REQUEST, "USER NOT FOUND."), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new CustomResponseMessage(HttpStatus.NOT_FOUND, "USER NOT FOUND."), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler({UserExistException.class})
@@ -38,25 +38,25 @@ public class ErrorHandlerController extends ResponseEntityExceptionHandler {
     @ExceptionHandler({RoleNotFoundException.class})
     public @ResponseBody
     ResponseEntity<?> sendRoleDoesNotExist() {
-        return new ResponseEntity<>(new CustomResponseMessage(HttpStatus.BAD_REQUEST, "ROLE DOES NOT EXIST"), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new CustomResponseMessage(HttpStatus.NOT_FOUND, "ROLE DOES NOT EXIST"), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler({DepartmentNotFoundException.class})
     public @ResponseBody
     ResponseEntity<?> sendDepartmentDoesNotExist() {
-        return new ResponseEntity<>(new CustomResponseMessage(HttpStatus.BAD_REQUEST, "DEPARTMENT DOES NOT EXIST."), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new CustomResponseMessage(HttpStatus.NOT_FOUND, "DEPARTMENT DOES NOT EXIST."), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler({EmptyUserListException.class})
     public @ResponseBody
     ResponseEntity<?> sendUserListIsEmpty() {
-        return new ResponseEntity<>(new CustomResponseMessage(HttpStatus.BAD_REQUEST, "EMPTY USER LIST"), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new CustomResponseMessage(HttpStatus.NOT_FOUND, "EMPTY USER LIST"), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler({EmptyRoleListException.class})
     public @ResponseBody
     ResponseEntity<?> sendRoleListIsEmpty() {
-        return new ResponseEntity<>(new CustomResponseMessage(HttpStatus.BAD_REQUEST, "EMPTY ROLE LIST"), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new CustomResponseMessage(HttpStatus.NOT_FOUND, "EMPTY ROLE LIST"), HttpStatus.NOT_FOUND);
     }
 
     @Override
