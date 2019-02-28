@@ -26,7 +26,7 @@ public class ErrorHandlerController extends ResponseEntityExceptionHandler {
     @ExceptionHandler({UserExistException.class})
     public @ResponseBody
     ResponseEntity<?> sendUserExist() {
-        return new ResponseEntity<>(new CustomResponseMessage(HttpStatus.BAD_REQUEST, "USER EXISTS IN DATABASE."), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new CustomResponseMessage(HttpStatus.CONFLICT, "USER ALREADY EXISTS"), HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler({UserBadCredentialException.class})

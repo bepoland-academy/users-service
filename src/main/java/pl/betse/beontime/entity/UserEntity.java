@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.Set;
 
 @Getter
@@ -51,5 +52,20 @@ public class UserEntity {
     private Set<RoleEntity> roles;
 
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof UserEntity)) return false;
+        UserEntity that = (UserEntity) o;
+        return getUserId().equals(that.getUserId()) &&
+                getEmailLogin().equals(that.getEmailLogin()) &&
+                Objects.equals(getFirstName(), that.getFirstName()) &&
+                Objects.equals(getLastName(), that.getLastName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getUserId(), getEmailLogin(), getFirstName(), getLastName());
+    }
 }
 
