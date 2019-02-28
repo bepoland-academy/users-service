@@ -9,11 +9,13 @@ import pl.betse.beontime.model.validation.LoginUserValidation;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.Objects;
 import java.util.Set;
 
 @Getter
 @Setter
 @Builder
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDTO {
@@ -44,5 +46,19 @@ public class UserDTO {
 
     private Set<String> roles;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof UserDTO)) return false;
+        UserDTO userDTO = (UserDTO) o;
+        return getUserId().equals(userDTO.getUserId()) &&
+                getEmailLogin().equals(userDTO.getEmailLogin()) &&
+                getFirstName().equals(userDTO.getFirstName()) &&
+                getLastName().equals(userDTO.getLastName());
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(getUserId(), getEmailLogin(), getFirstName(), getLastName());
+    }
 }

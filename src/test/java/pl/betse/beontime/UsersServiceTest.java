@@ -14,9 +14,8 @@ import pl.betse.beontime.service.UserServiceImpl;
 import java.util.Collections;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 class UsersServiceTest {
 
@@ -30,22 +29,25 @@ class UsersServiceTest {
     private UserEntity anotherUser;
 
     @BeforeEach
-    void init() {
+    void setup() {
         userService = new UserServiceImpl(userRepository);
         passwordEncoder = new BCryptPasswordEncoder();
         simpleDepartment = new DepartmentEntity(1, "BANKING");
         simpleUser = new UserEntity(1, "test@be-tse.com", "Test", "Test", "Password", false, simpleDepartment, null);
-        anotherUser = new UserEntity(2, "test@be-tse.com", "Test", "Test", "Password", false, simpleDepartment, null);
+        anotherUser = new UserEntity(1, "test@be-tse.com", "Test", "Test", "Password", false, simpleDepartment, null);
     }
 
 
     @Test
     void checkFindById() {
         when(userRepository.findById(1)).thenReturn(Optional.of(simpleUser));
-
-        anotherUser.setUserId(1);
-
         assertEquals(userService.findById(1), anotherUser);
+    }
+
+    @Test
+    void checkIfFindAllWorks() {
+        when(userRepository.findAll()).thenReturn(Collections.singletonList(simpleUser));
+        assertTrue(userService.findAll().size() > 0);
     }
 
     @Test
@@ -55,20 +57,34 @@ class UsersServiceTest {
     }
 
     @Test
+    void checkExistById() {
+        when(userRepository.existsByUserId(1)).thenReturn(true);
+        assertTrue(userService.existsByUserId(1));
+    }
+
+    @Test
     void checkFindByDepartmentEntity() {
         when(userRepository.findByDepartmentEntity(simpleDepartment)).thenReturn(Collections.singletonList(simpleUser));
         assertTrue(userService.findByDepartmentEntity(simpleDepartment).size() > 0);
     }
 
     @Test
-    void checkUserParameters(){
-
-
-
+    void checkGetUserByEmailNotNull() {
+        when(userRepository.findByEmail("test@test.com")).thenReturn(simpleUser);
+        assertNotNull(userService.getUserByEmail("test@test.com"));
     }
 
+    @Test
+    void checkIfDeleteUserWorks() {
+        userService.deleteById(1);
+        verify(userRepository, times(1)).deleteById(1);
+    }
 
-
+    @Test
+    void checkIfSaveUserWorks() {
+        userService.save(simpleUser);
+        verify(userRepository, times(1)).save(simpleUser);
+    }
 
 
 }

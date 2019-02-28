@@ -4,6 +4,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import pl.betse.beontime.bo.UserDTO;
+import pl.betse.beontime.entity.UserEntity;
 import pl.betse.beontime.model.custom_exceptions.UserBadCredentialException;
 import pl.betse.beontime.model.validation.LoginUserValidation;
 import pl.betse.beontime.model_mapper.UserModelMapper;
@@ -32,11 +33,13 @@ public class LoginController {
             throw new UserBadCredentialException();
         }
 
-        if (!passwordEncoder.matches(incomingUserCredentials.getPassword(), usersService.getUserByEmail(incomingUserCredentials.getEmailLogin()).getPassword())) {
+        UserEntity userEntity = usersService.getUserByEmail(incomingUserCredentials.getEmailLogin());
+
+        if (!passwordEncoder.matches(incomingUserCredentials.getPassword(), userEntity.getPassword())) {
             throw new UserBadCredentialException();
         }
 
-        return UserModelMapper.fromUserEntityToUserDTO(usersService.getUserByEmail(incomingUserCredentials.getEmailLogin()));
+        return UserModelMapper.fromUserEntityToUserDTO(userEntity);
     }
 
 }
