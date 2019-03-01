@@ -88,13 +88,15 @@ public class UserController {
                 throw new RoleNotFoundException();
         }
 
+        userDTO.setFirstName(UpperAndLoweCaseCorrector.fix(userDTO.getFirstName()));
+        userDTO.setLastName(UpperAndLoweCaseCorrector.fix(userDTO.getLastName()));
+
         UserEntity newUserEntity = UserModelMapper.fromUserDtoToUserEntity(userDTO);
         // SET PASSWORD FOR EVERY NEW USER (HARDCODED FOR NOW!)
         newUserEntity.setPassword(passwordEncoder.encode("qwe123!"));
         newUserEntity.setDepartmentEntity(departmentService.findByName(userDTO.getDepartment()));
         newUserEntity.setRoles(newRoleEntities);
 
-        // PERSIST
         usersService.save(newUserEntity);
 
         return UserModelMapper.fromUserEntityToUserDTO(newUserEntity);
