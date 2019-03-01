@@ -17,6 +17,7 @@ import pl.betse.beontime.service.DepartmentService;
 import pl.betse.beontime.service.RoleService;
 import pl.betse.beontime.service.UsersService;
 import pl.betse.beontime.utils.CustomResponseMessage;
+import pl.betse.beontime.utils.UpperAndLoweCaseCorrector;
 import pl.betse.beontime.utils.UserDTOListBuilder;
 
 import java.util.ArrayList;
@@ -114,7 +115,6 @@ public class UserController {
             if (!EnumUtils.isValidEnum(DepartmentEnum.class, userDTO.getDepartment().toUpperCase())) {
                 throw new DepartmentNotFoundException();
             }
-
             userEntity.setDepartmentEntity(departmentService.findByName(userDTO.getDepartment()));
         }
 
@@ -129,10 +129,10 @@ public class UserController {
             userEntity.setEmailLogin(userDTO.getEmailLogin());
         }
         if (userDTO.getFirstName() != null) {
-            userEntity.setFirstName(userDTO.getFirstName());
+            userEntity.setFirstName(UpperAndLoweCaseCorrector.fix(userDTO.getFirstName()));
         }
         if (userDTO.getLastName() != null) {
-            userEntity.setLastName(userDTO.getLastName());
+            userEntity.setLastName(UpperAndLoweCaseCorrector.fix(userDTO.getLastName()));
         }
         if (userDTO.getPassword() != null) {
             userEntity.setPassword(passwordEncoder.encode(userDTO.getPassword()));

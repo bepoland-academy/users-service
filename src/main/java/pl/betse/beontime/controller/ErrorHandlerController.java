@@ -3,6 +3,7 @@ package pl.betse.beontime.controller;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -13,6 +14,8 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import pl.betse.beontime.model.custom_exceptions.*;
 import pl.betse.beontime.utils.CustomResponseMessage;
+
+import java.util.ArrayList;
 
 @RestControllerAdvice
 public class ErrorHandlerController extends ResponseEntityExceptionHandler {
@@ -61,7 +64,11 @@ public class ErrorHandlerController extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        return new ResponseEntity<>(new CustomResponseMessage(HttpStatus.BAD_REQUEST, ex.getMessage()), HttpStatus.BAD_REQUEST);
+        ArrayList<String> errors = new ArrayList<>();
+        for (FieldError error : ex.getBindingResult().getFieldErrors()) {
+            errors.add(error.getField() + ": " + error.getDefaultMessage());
+        }
+        return new ResponseEntity<>(new CustomResponseMessage(HttpStatus.BAD_REQUEST, errors.toString()), HttpStatus.BAD_REQUEST);
     }
 
     @Override
