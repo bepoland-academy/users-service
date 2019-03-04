@@ -44,7 +44,7 @@ class UserControllerTest {
         roleEntitySet = new HashSet<>();
         roleEntitySet.add(roleEntity);
         departmentEntity = new DepartmentEntity(DepartmentEnum.DIGITAL);
-        userEntity = new UserEntity(1,"customGUID", "test@test.com", "test", "test", "password", true, departmentEntity, roleEntitySet);
+        userEntity = new UserEntity(1, "customGUID", "test@test.com", "test", "test", "password", true, departmentEntity, roleEntitySet);
         userDTO = UserModelMapper.fromUserEntityToUserDTO(userEntity);
         passwordEncoder = new BCryptPasswordEncoder();
         userController = new UserController(usersService, departmentService, roleService, passwordEncoder);
@@ -71,19 +71,19 @@ class UserControllerTest {
 
     @Test
     void checkIfGetUserByIdReturnValue() {
-        when(usersService.existsByUserId(1)).thenReturn(true);
-        when(usersService.findById(1)).thenReturn(userEntity);
+        when(usersService.existsByGUID("customGUID")).thenReturn(true);
+        when(usersService.findByGUID("customGUID")).thenReturn(userEntity);
 
-        assertNotNull(userController.getUserById("1"));
+        assertNotNull(userController.getUserById("customGUID"));
 
     }
 
     @Test
     void checkIfGetUserByIdReturnCorrectUserDTO() {
-        when(usersService.existsByUserId(1)).thenReturn(true);
-        when(usersService.findById(1)).thenReturn(userEntity);
+        when(usersService.existsByGUID("customGUID")).thenReturn(true);
+        when(usersService.findByGUID("customGUID")).thenReturn(userEntity);
 
-        assertEquals(userDTO, userController.getUserById("1"));
+        assertEquals(userDTO, userController.getUserById("customGUID"));
 
     }
 
@@ -94,24 +94,23 @@ class UserControllerTest {
     }
 
 
-
     @Test
     void checkIfDepartmentNotFoundExceptionHasBeenThrown() {
-        when(usersService.existsByUserId(1)).thenReturn(true);
-        when(usersService.findById(1)).thenReturn(userEntity);
+        when(usersService.existsByGUID("customGUID")).thenReturn(true);
+        when(usersService.findByGUID("customGUID")).thenReturn(userEntity);
         userDTO.setDepartment("AAA");
-        assertThrows(DepartmentNotFoundException.class, () -> userController.updateUser("1", userDTO));
+        assertThrows(DepartmentNotFoundException.class, () -> userController.updateUser("customGUID", userDTO));
 
     }
 
     @Test
     void checkIfRoleNotFoundExceptionHasBeenThrown() {
-        when(usersService.existsByUserId(1)).thenReturn(true);
-        when(usersService.findById(1)).thenReturn(userEntity);
+        when(usersService.existsByGUID("customGUID")).thenReturn(true);
+        when(usersService.findByGUID("customGUID")).thenReturn(userEntity);
         Set<String> roles = new HashSet<>();
         roles.add("NOROLE");
         userDTO.setRoles(roles);
-        assertThrows(RoleNotFoundException.class, () -> userController.updateUser("1", userDTO));
+        assertThrows(RoleNotFoundException.class, () -> userController.updateUser("customGUID", userDTO));
     }
 
 }

@@ -17,6 +17,7 @@ import pl.betse.beontime.service.DepartmentService;
 import pl.betse.beontime.service.RoleService;
 import pl.betse.beontime.service.UsersService;
 import pl.betse.beontime.utils.CustomResponseMessage;
+import pl.betse.beontime.utils.GUIDGenerator;
 import pl.betse.beontime.utils.UpperAndLoweCaseCorrector;
 import pl.betse.beontime.utils.UserDTOListBuilder;
 
@@ -58,15 +59,15 @@ public class UserController {
         return userList;
     }
 
-    @GetMapping(path = "/{id}")
+    @GetMapping(path = "/{guid}")
     public @ResponseBody
-    UserDTO getUserById(@PathVariable("id") String userId) {
+    UserDTO getUserById(@PathVariable("guid") String userGUID) {
 
-        if (!usersService.existsByUserId(Integer.valueOf(userId))) {
+        if (!usersService.existsByGUID(userGUID)) {
             throw new UserNotFoundException();
         }
 
-        return UserModelMapper.fromUserEntityToUserDTO(usersService.findById(Integer.valueOf(userId)));
+        return UserModelMapper.fromUserEntityToUserDTO(usersService.findByGUID(userGUID));
     }
 
 
@@ -88,8 +89,15 @@ public class UserController {
                 throw new RoleNotFoundException();
         }
 
-        userDTO.setFirstName(UpperAndLoweCaseCorrector.fix(userDTO.getFirstName()));
-        userDTO.setLastName(UpperAndLoweCaseCorrector.fix(userDTO.getLastName()));
+        try {
+            userDTO.setFirstName(UpperAndLoweCaseCorrector.fix(userDTO.getFirstName()));
+            userDTO.setLastName(UpperAndLoweCaseCorrector.fix(userDTO.getLastName()));
+        } catch (Exception e) {
+        }
+
+        userDTO.setUserGUID(GUIDGenerator.generate());
+
+        System.out.println(userDTO.getUserGUID());
 
         UserEntity newUserEntity = UserModelMapper.fromUserDtoToUserEntity(userDTO);
         // SET PASSWORD FOR EVERY NEW USER (HARDCODED FOR NOW!)
@@ -103,15 +111,15 @@ public class UserController {
     }
 
 
-    @PutMapping(path = "/{id}")
+    @PutMapping(path = "/{guid}")
     public @ResponseBody
-    UserDTO updateUser(@PathVariable("id") String userId, @RequestBody UserDTO userDTO) {
+    UserDTO updateUser(@PathVariable("guid") String userGuid, @RequestBody UserDTO userDTO) {
 
-        if (!usersService.existsByUserId(Integer.valueOf(userId))) {
+        if (!usersService.existsByGUID(userGuid)) {
             throw new UserNotFoundException();
         }
 
-        UserEntity userEntity = usersService.findById(Integer.valueOf(userId));
+        UserEntity userEntity = usersService.findByGUID(userGuid);
 
         if (userDTO.getDepartment() != null) {
             if (!EnumUtils.isValidEnum(DepartmentEnum.class, userDTO.getDepartment().toUpperCase())) {
@@ -154,15 +162,15 @@ public class UserController {
     }
 
 
-    @DeleteMapping(path = "/{id}")
+    @DeleteMapping(path = "/{guid}")
     public @ResponseBody
-    CustomResponseMessage deleteUserById(@PathVariable("id") String userId) {
+    CustomResponseMessage deleteUserById(@PathVariable("guid") String userGUID) {
 
-        if (!usersService.existsByUserId(Integer.valueOf(userId))) {
+        if (!usersService.existsByGUID(userGUID)) {
             throw new UserNotFoundException();
         }
 
-        usersService.deleteById(Integer.valueOf(userId));
+        usersService.deleteById(usersService.findByGUID(userGUID).getUserId());
 
         return new CustomResponseMessage(HttpStatus.OK, "User successfully deleted!");
     }

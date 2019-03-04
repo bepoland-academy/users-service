@@ -23,6 +23,8 @@ public interface UsersService {
 
     void deleteById(Integer userId);
 
+
+
     UserEntity findByGUID(String GUID);
 
     boolean existsByGUID(String GUID);

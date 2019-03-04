@@ -51,6 +51,8 @@ public class UserServiceImpl implements UsersService {
         userRepository.deleteById(userId);
     }
 
+
+
     @Override
     public UserEntity findByGUID(String GUID) {
         return userRepository.findByUserGUID(GUID);
