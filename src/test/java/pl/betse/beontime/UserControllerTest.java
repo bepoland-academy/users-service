@@ -44,7 +44,7 @@ class UserControllerTest {
         roleEntitySet = new HashSet<>();
         roleEntitySet.add(roleEntity);
         departmentEntity = new DepartmentEntity(DepartmentEnum.DIGITAL);
-        userEntity = new UserEntity(1, "test@test.com", "test", "test", "password", true, departmentEntity, roleEntitySet);
+        userEntity = new UserEntity(1,"customGUID", "test@test.com", "test", "test", "password", true, departmentEntity, roleEntitySet);
         userDTO = UserModelMapper.fromUserEntityToUserDTO(userEntity);
         passwordEncoder = new BCryptPasswordEncoder();
         userController = new UserController(usersService, departmentService, roleService, passwordEncoder);

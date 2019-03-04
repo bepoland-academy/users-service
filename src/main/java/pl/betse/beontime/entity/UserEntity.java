@@ -21,8 +21,13 @@ public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "USER_ID")
+    @JsonIgnore
+    @Column(name = "user_ID")
     private Integer userId;
+
+    @Column(name = "user_GUID", nullable = false, unique = true)
+    @JsonProperty("userId")
+    private String userGUID;
 
     @Column(nullable = false, unique = true)
     private String emailLogin;
@@ -58,14 +63,15 @@ public class UserEntity {
         if (!(o instanceof UserEntity)) return false;
         UserEntity that = (UserEntity) o;
         return getUserId().equals(that.getUserId()) &&
+                getUserGUID().equals(that.getUserGUID()) &&
                 getEmailLogin().equals(that.getEmailLogin()) &&
-                Objects.equals(getFirstName(), that.getFirstName()) &&
-                Objects.equals(getLastName(), that.getLastName());
+                getFirstName().equals(that.getFirstName()) &&
+                getLastName().equals(that.getLastName());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getUserId(), getEmailLogin(), getFirstName(), getLastName());
+        return Objects.hash(getUserId(), getUserGUID(), getEmailLogin(), getFirstName(), getLastName());
     }
 }
 

@@ -29,8 +29,8 @@ class LoginControllerTest {
 
     @BeforeEach
     void setup() {
-        TEST_USER = new UserDTO(1, "test@test.pl", "test", "test", "qwe123!", false, "BANKING", new HashSet<>());
-        TEST_USER_ENTITY = new UserEntity(1, TEST_USER.getEmailLogin(), TEST_USER.getFirstName(), TEST_USER.getLastName(), TEST_USER.getPassword(), TEST_USER.isActive(), new DepartmentEntity(1, "BANKING"), new HashSet<>());
+        TEST_USER = new UserDTO(1,"CustomGUID", "test@test.pl", "test", "test", "qwe123!", false, "BANKING", new HashSet<>());
+        TEST_USER_ENTITY = new UserEntity(1,"CustomGUID", TEST_USER.getEmailLogin(), TEST_USER.getFirstName(), TEST_USER.getLastName(), TEST_USER.getPassword(), TEST_USER.isActive(), new DepartmentEntity(1, "BANKING"), new HashSet<>());
         loginController = new LoginController(userService, passwordEncoder);
     }
 

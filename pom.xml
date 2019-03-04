@@ -53,8 +53,8 @@
         </dependency>
 
         <dependency>
-            <groupId>org.liquibase</groupId>
-            <artifactId>liquibase-core</artifactId>
+        <groupId>org.liquibase</groupId>
+        <artifactId>liquibase-core</artifactId>
         </dependency>
 
         <dependency>
@@ -65,9 +65,9 @@
 
         <!-- https://mvnrepository.com/artifact/org.liquibase/liquibase-maven-plugin -->
         <dependency>
-            <groupId>org.liquibase</groupId>
-            <artifactId>liquibase-maven-plugin</artifactId>
-            <version>3.6.3</version>
+        <groupId>org.liquibase</groupId>
+        <artifactId>liquibase-maven-plugin</artifactId>
+        <version>3.6.3</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
@@ -79,9 +79,9 @@
 
 
         <dependency>
-            <groupId>org.liquibase.ext</groupId>
-            <artifactId>liquibase-hibernate5</artifactId>
-            <version>3.6</version>
+        <groupId>org.liquibase.ext</groupId>
+        <artifactId>liquibase-hibernate5</artifactId>
+        <version>3.6</version>
         </dependency>
 
         <dependency>
@@ -176,40 +176,40 @@
             </plugin>
 
             <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-surefire-plugin</artifactId>-->
-                <!--<version>2.22.1</version>-->
+            <!--<groupId>org.apache.maven.plugins</groupId>-->
+            <!--<artifactId>maven-surefire-plugin</artifactId>-->
+            <!--<version>2.22.1</version>-->
             <!--</plugin>-->
 
             <!-- LIQUIBASE PLUGIN-->
             <!--<plugin>-->
-            <!--<groupId>org.liquibase</groupId>-->
-            <!--<artifactId>liquibase-maven-plugin</artifactId>-->
-            <!--<version>3.6.3</version>-->
-            <!--<configuration>-->
-            <!--<dropFirst>true</dropFirst>-->
-            <!--<url>jdbc:mysql://localhost:3336/USERS_DB?createDatabaseIfNotExist=true&amp;serverTimezone=UTC</url>-->
-            <!--<username>root</username>-->
-            <!--<password>secret</password>-->
-            <!--<changeLogFile>src/resources/changeLogNew.xml</changeLogFile>-->
-            <!--</configuration>-->
-            <!--<dependencies>-->
-            <!--<dependency>-->
-            <!--<groupId>org.liquibase.ext</groupId>-->
-            <!--<artifactId>liquibase-hibernate5</artifactId>-->
-            <!--<version>3.6</version>-->
-            <!--</dependency>-->
-            <!--<dependency>-->
-            <!--<groupId>org.springframework</groupId>-->
-            <!--<artifactId>spring-beans</artifactId>-->
-            <!--<version>LATEST</version>-->
-            <!--</dependency>-->
-            <!--<dependency>-->
-            <!--<groupId>org.springframework.data</groupId>-->
-            <!--<artifactId>spring-data-jpa</artifactId>-->
-            <!--<version>LATEST</version>-->
-            <!--</dependency>-->
-            <!--</dependencies>-->
+                <!--<groupId>org.liquibase</groupId>-->
+                <!--<artifactId>liquibase-maven-plugin</artifactId>-->
+                <!--<version>3.6.3</version>-->
+                <!--<configuration>-->
+                    <!--<dropFirst>true</dropFirst>-->
+                    <!--<url>jdbc:mysql://localhost:3336/USERS_DB?createDatabaseIfNotExist=true&amp;serverTimezone=UTC</url>-->
+                    <!--<username>root</username>-->
+                    <!--<password>secret</password>-->
+                    <!--<changeLogFile>src/resources/changeLogNew.xml</changeLogFile>-->
+                <!--</configuration>-->
+                <!--<dependencies>-->
+                    <!--<dependency>-->
+                        <!--<groupId>org.liquibase.ext</groupId>-->
+                        <!--<artifactId>liquibase-hibernate5</artifactId>-->
+                        <!--<version>3.6</version>-->
+                    <!--</dependency>-->
+                    <!--<dependency>-->
+                        <!--<groupId>org.springframework</groupId>-->
+                        <!--<artifactId>spring-beans</artifactId>-->
+                        <!--<version>LATEST</version>-->
+                    <!--</dependency>-->
+                    <!--<dependency>-->
+                        <!--<groupId>org.springframework.data</groupId>-->
+                        <!--<artifactId>spring-data-jpa</artifactId>-->
+                        <!--<version>LATEST</version>-->
+                    <!--</dependency>-->
+                <!--</dependencies>-->
             <!--</plugin>-->
 
         </plugins>

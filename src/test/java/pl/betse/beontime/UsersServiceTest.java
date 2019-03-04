@@ -30,7 +30,7 @@ class UsersServiceTest {
     void setup() {
         userService = new UserServiceImpl(userRepository);
         simpleDepartment = new DepartmentEntity(1, "BANKING");
-        simpleUser = new UserEntity(1, "test@be-tse.com", "Test", "Test", "Password", false, simpleDepartment, null);
+        simpleUser = new UserEntity(1,"CustomGUID", "test@be-tse.com", "Test", "Test", "Password", false, simpleDepartment, null);
     }
 
 

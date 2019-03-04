@@ -21,6 +21,7 @@ public class UserModelMapper {
 
         return userEntity == null ? null : UserDTO.builder()
                 .userId(userEntity.getUserId())
+                .userGUID(userEntity.getUserGUID())
                 .emailLogin(userEntity.getEmailLogin())
                 .firstName(userEntity.getFirstName())
                 .lastName(userEntity.getLastName())
@@ -36,6 +37,7 @@ public class UserModelMapper {
 
         return userDTO == null ? null : UserEntity.builder()
                 .emailLogin(userDTO.getEmailLogin())
+                .userGUID(userDTO.getUserGUID())
                 .firstName(userDTO.getFirstName())
                 .lastName(userDTO.getLastName())
                 .isActive(userDTO.isActive())

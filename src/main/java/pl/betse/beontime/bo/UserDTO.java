@@ -1,8 +1,8 @@
 package pl.betse.beontime.bo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
-import org.hibernate.validator.constraints.Length;
 import pl.betse.beontime.model.validation.CreateUserValidation;
 import pl.betse.beontime.model.validation.LoginUserValidation;
 
@@ -20,8 +20,11 @@ import java.util.Set;
 @NoArgsConstructor
 public class UserDTO {
 
-
+    @JsonIgnore
     private Integer userId;
+
+    @JsonProperty("userId")
+    private String userGUID;
 
     @NotNull(groups = {CreateUserValidation.class, LoginUserValidation.class})
     @NotEmpty(groups = {CreateUserValidation.class, LoginUserValidation.class})

@@ -28,7 +28,7 @@ class RoleServiceTest {
     void setup() {
         roleService = new RoleServiceImpl(roleRepository);
         Set<UserEntity> setTest = new HashSet();
-        simpleUser = new UserEntity(1, "test@be-tse.com", "Test", "Test", "Password", false, null, null);
+        simpleUser = new UserEntity(1,"CustomGUID", "test@be-tse.com", "Test", "Test", "Password", false, null, null);
         simpleRoleEntity = new RoleEntity(1, "CONSULTANT", setTest);
     }
 
