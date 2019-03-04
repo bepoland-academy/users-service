@@ -1,12 +1,10 @@
 package pl.betse.beontime.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.betse.beontime.entity.DepartmentEntity;
 import pl.betse.beontime.entity.UserEntity;
 import pl.betse.beontime.repository.UserRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -51,6 +49,16 @@ public class UserServiceImpl implements UsersService {
     @Override
     public void deleteById(Integer userId) {
         userRepository.deleteById(userId);
+    }
+
+    @Override
+    public UserEntity findByGUID(String GUID) {
+        return userRepository.findByUserGUID(GUID);
+    }
+
+    @Override
+    public boolean existsByGUID(String GUID) {
+        return userRepository.existsByUserGUID(GUID);
     }
 
     @Override

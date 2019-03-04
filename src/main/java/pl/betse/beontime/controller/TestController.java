@@ -1,28 +1,30 @@
 package pl.betse.beontime.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import pl.betse.beontime.bo.UserDTO;
-import pl.betse.beontime.entity.DepartmentEntity;
-import pl.betse.beontime.entity.UserEntity;
+import pl.betse.beontime.model.custom_exceptions.UserNotFoundException;
 import pl.betse.beontime.model_mapper.UserModelMapper;
-
-import java.util.HashSet;
-import java.util.UUID;
+import pl.betse.beontime.service.UsersService;
 
 @RestController
 public class TestController {
 
+    @Autowired
+    UsersService usersService;
 
-    @RequestMapping(value = "/test", method = RequestMethod.GET)
-    public UserDTO asd() {
 
-        String uuid = UUID.randomUUID().toString();
+    @RequestMapping(value = "/test/{GUID}", method = RequestMethod.GET)
+    public UserDTO asd(@PathVariable("GUID") String guid) {
+        if (!usersService.existsByGUID(guid)) {
+            throw new UserNotFoundException();
+        }
 
-        UserDTO userDTO = UserModelMapper.fromUserEntityToUserDTO(new UserEntity(1, uuid, "email@wp.pl", "First", "Last", "Pass", false, new DepartmentEntity(1,"asd"), new HashSet<>()));
-
-        return userDTO;
+        return UserModelMapper.fromUserEntityToUserDTO(usersService.findByGUID(guid));
     }
+
 
 }

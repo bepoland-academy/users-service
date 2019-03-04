@@ -19,9 +19,13 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
 
     boolean existsByEmailLogin(String userEmail);
 
+    boolean existsByUserGUID(String GUID);
+
 
     @Query("SELECT user FROM UserEntity user where  lower(user.emailLogin)=lower(:userEmail)")
     UserEntity findByEmail(@Param("userEmail") String userEmail);
 
     List<UserEntity> findByDepartmentEntity(DepartmentEntity departmentEntity);
+
+    UserEntity findByUserGUID(String GUID);
 }

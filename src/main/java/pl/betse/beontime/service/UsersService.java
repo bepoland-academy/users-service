@@ -22,4 +22,8 @@ public interface UsersService {
     void save(UserEntity userEntity);
 
     void deleteById(Integer userId);
+
+    UserEntity findByGUID(String GUID);
+
+    boolean existsByGUID(String GUID);
 }
