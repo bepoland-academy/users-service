@@ -32,7 +32,7 @@ pipeline {
         git(url: 'https://github.com/bepoland-academy/deployment-configuration.git', branch: 'development')
       }
     }
-    stage('Docker compose Pull') {
+    stage('Docker Compose Pull') {
       steps {
         sh 'docker-compose -H main-server:2376 -f production/docker-compose.yml pull'
       }
