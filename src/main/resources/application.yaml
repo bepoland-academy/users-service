@@ -24,3 +24,8 @@ eureka:
   client:
     serviceUrl:
       defaultZone: ${REGISTRY_URL}
+
+jwt:
+  config:
+    expirationTime: 1200000
+    secret: 3bJAp`]4|kzB?~8+

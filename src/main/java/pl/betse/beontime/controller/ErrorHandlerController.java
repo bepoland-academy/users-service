@@ -53,7 +53,7 @@ public class ErrorHandlerController extends ResponseEntityExceptionHandler {
     @ExceptionHandler({EmptyUserListException.class})
     public @ResponseBody
     ResponseEntity<?> sendUserListIsEmpty() {
-        return new ResponseEntity<>(new CustomResponseMessage(HttpStatus.NOT_FOUND, "EMPTY USER LIST"), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(new CustomResponseMessage(HttpStatus.OK, "EMPTY USER LIST"), HttpStatus.OK);
     }
 
     @ExceptionHandler({EmptyRoleListException.class})

@@ -21,12 +21,10 @@ public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonIgnore
     @Column(name = "user_ID")
     private Integer userId;
 
     @Column(name = "user_GUID", nullable = false, unique = true)
-    @JsonProperty("userId")
     private String userGUID;
 
     @Column(nullable = false, unique = true)
@@ -38,19 +36,15 @@ public class UserEntity {
 
 
     @Column(nullable = false)
-    @JsonIgnore
     private String password;
 
-    @JsonProperty("active")
     private boolean isActive;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "DEPARTMENT_ID")
-    @JsonIgnore
     private DepartmentEntity departmentEntity;
 
     @ManyToMany
-    @JsonIgnore
     @JoinTable(name = "USER_ROLES",
             joinColumns = @JoinColumn(name = "USER_ID"),
             inverseJoinColumns = @JoinColumn(name = "ROLE_ID"))
