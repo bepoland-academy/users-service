@@ -37,5 +37,10 @@ pipeline {
         sh 'docker-compose -H main-server:2376 -f production/docker-compose.yml pull'
       }
     }
+    stage('Deploy') {
+      steps {
+        sh 'docker-compose -H main-server:2376 -f production/docker-compose.yml up -d users-service'
+      }
+    }
   }
 }
