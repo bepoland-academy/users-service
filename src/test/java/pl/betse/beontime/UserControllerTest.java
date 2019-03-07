@@ -10,16 +10,14 @@ import pl.betse.beontime.controller.UserController;
 import pl.betse.beontime.entity.DepartmentEntity;
 import pl.betse.beontime.entity.RoleEntity;
 import pl.betse.beontime.entity.UserEntity;
-import pl.betse.beontime.model.custom_exceptions.*;
+import pl.betse.beontime.mapper.UserModelMapper;
 import pl.betse.beontime.model.enums.DepartmentEnum;
-import pl.betse.beontime.model_mapper.UserModelMapper;
+import pl.betse.beontime.model.exception.*;
 import pl.betse.beontime.service.DepartmentService;
 import pl.betse.beontime.service.RoleService;
 import pl.betse.beontime.service.UsersService;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -107,7 +105,7 @@ class UserControllerTest {
     void checkIfRoleNotFoundExceptionHasBeenThrown() {
         when(usersService.existsByGUID("customGUID")).thenReturn(true);
         when(usersService.findByGUID("customGUID")).thenReturn(userEntity);
-        Set<String> roles = new HashSet<>();
+        List<String> roles = new ArrayList<>();
         roles.add("NOROLE");
         userDTO.setRoles(roles);
         assertThrows(RoleNotFoundException.class, () -> userController.updateUser("customGUID", userDTO));

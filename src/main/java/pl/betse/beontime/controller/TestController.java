@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import pl.betse.beontime.bo.UserDTO;
-import pl.betse.beontime.model.custom_exceptions.UserNotFoundException;
-import pl.betse.beontime.model_mapper.UserModelMapper;
+import pl.betse.beontime.model.exception.UserNotFoundException;
+import pl.betse.beontime.mapper.UserModelMapper;
 import pl.betse.beontime.service.UsersService;
 
 @RestController

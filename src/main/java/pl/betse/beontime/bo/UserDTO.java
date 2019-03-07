@@ -1,7 +1,5 @@
 package pl.betse.beontime.bo;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import pl.betse.beontime.model.validation.CreateUserValidation;
 import pl.betse.beontime.model.validation.LoginUserValidation;
@@ -9,8 +7,8 @@ import pl.betse.beontime.model.validation.LoginUserValidation;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -20,34 +18,24 @@ import java.util.Set;
 @NoArgsConstructor
 public class UserDTO {
 
-    @JsonIgnore
-    private Integer userId;
-
-    @JsonProperty("userId")
-    private String userGUID;
+    private String userId;
 
     @NotNull(groups = {CreateUserValidation.class, LoginUserValidation.class})
     @NotEmpty(groups = {CreateUserValidation.class, LoginUserValidation.class})
     @Email(groups = {CreateUserValidation.class, LoginUserValidation.class})
-    private String emailLogin;
+    private String email;
 
     private String firstName;
 
     private String lastName;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @NotNull(groups = {LoginUserValidation.class})
-    @NotEmpty(groups = {LoginUserValidation.class})
-    private String password;
-
-    @JsonProperty("active")
-    private boolean isActive;
+    private boolean active;
 
     @NotNull(groups = {CreateUserValidation.class})
     @NotEmpty(groups = {CreateUserValidation.class})
     private String department;
 
-    private Set<String> roles;
+    private List<String> roles;
 
     @Override
     public boolean equals(Object o) {
@@ -55,13 +43,13 @@ public class UserDTO {
         if (!(o instanceof UserDTO)) return false;
         UserDTO userDTO = (UserDTO) o;
         return getUserId().equals(userDTO.getUserId()) &&
-                getEmailLogin().equals(userDTO.getEmailLogin()) &&
+                getEmail().equals(userDTO.getEmail()) &&
                 getFirstName().equals(userDTO.getFirstName()) &&
                 getLastName().equals(userDTO.getLastName());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getUserId(), getEmailLogin(), getFirstName(), getLastName());
+        return Objects.hash(getUserId(), getEmail(), getFirstName(), getLastName());
     }
 }

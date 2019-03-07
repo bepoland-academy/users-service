@@ -1,4 +1,4 @@
-package pl.betse.beontime.model.custom_exceptions;
+package pl.betse.beontime.model.exception;
 
 import lombok.NoArgsConstructor;
 

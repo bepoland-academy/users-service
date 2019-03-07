@@ -1,20 +1,13 @@
 package pl.betse.beontime.controller;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import pl.betse.beontime.bo.UserCredentials;
 import pl.betse.beontime.bo.UserDTO;
 import pl.betse.beontime.entity.UserEntity;
-import pl.betse.beontime.model.custom_exceptions.UserBadCredentialException;
-import pl.betse.beontime.model.custom_exceptions.UserNotFoundException;
-import pl.betse.beontime.model.validation.CredentialsValidation;
-import pl.betse.beontime.model.validation.LoginUserValidation;
-import pl.betse.beontime.model_mapper.UserModelMapper;
+import pl.betse.beontime.model.exception.UserBadCredentialException;
+import pl.betse.beontime.model.exception.UserNotFoundException;
+import pl.betse.beontime.mapper.UserModelMapper;
 import pl.betse.beontime.service.UsersService;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/login")
@@ -30,18 +23,7 @@ public class LoginController {
         this.passwordEncoder = passwordEncoder;
     }
 
-    @PostMapping
-    public @ResponseBody
-    UserDTO checkUserCredentials(@RequestBody @Validated(LoginUserValidation.class) UserDTO incomingUserCredentials) {
-        if (!usersService.existsByEmailLogin(incomingUserCredentials.getEmailLogin())) {
-            throw new UserBadCredentialException();
-        }
-        UserEntity userEntity = usersService.getUserByEmail(incomingUserCredentials.getEmailLogin());
-        if (!passwordEncoder.matches(incomingUserCredentials.getPassword(), userEntity.getPassword())) {
-            throw new UserBadCredentialException();
-        }
-        return UserModelMapper.fromUserEntityToUserDTO(userEntity);
-    }
+
 
     @GetMapping
     public @ResponseBody

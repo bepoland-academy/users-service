@@ -1,4 +1,4 @@
-package pl.betse.beontime.model_mapper;
+package pl.betse.beontime.mapper;
 
 import org.springframework.stereotype.Component;
 import pl.betse.beontime.bo.RoleDTO;

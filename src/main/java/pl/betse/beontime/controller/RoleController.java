@@ -1,14 +1,12 @@
 package pl.betse.beontime.controller;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.betse.beontime.entity.RoleEntity;
 import pl.betse.beontime.entity.UserEntity;
 import pl.betse.beontime.bo.RoleDTO;
 import pl.betse.beontime.bo.UserDTO;
-import pl.betse.beontime.model.custom_exceptions.EmptyRoleListException;
-import pl.betse.beontime.model.custom_exceptions.RoleNotFoundException;
+import pl.betse.beontime.model.exception.EmptyRoleListException;
+import pl.betse.beontime.model.exception.RoleNotFoundException;
 import pl.betse.beontime.service.RoleService;
 import pl.betse.beontime.utils.UserDTOListBuilder;
 

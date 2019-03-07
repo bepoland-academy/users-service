@@ -10,9 +10,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import pl.betse.beontime.model.custom_exceptions.*;
+import pl.betse.beontime.model.exception.*;
 import pl.betse.beontime.utils.CustomResponseMessage;
 
 import java.util.ArrayList;

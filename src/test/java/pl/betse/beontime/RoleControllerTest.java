@@ -6,9 +6,9 @@ import org.mockito.Mockito;
 import pl.betse.beontime.bo.RoleDTO;
 import pl.betse.beontime.controller.RoleController;
 import pl.betse.beontime.entity.RoleEntity;
-import pl.betse.beontime.model.custom_exceptions.EmptyRoleListException;
-import pl.betse.beontime.model.custom_exceptions.RoleNotFoundException;
-import pl.betse.beontime.model_mapper.RoleModelMapper;
+import pl.betse.beontime.model.exception.EmptyRoleListException;
+import pl.betse.beontime.model.exception.RoleNotFoundException;
+import pl.betse.beontime.mapper.RoleModelMapper;
 import pl.betse.beontime.service.*;
 
 import java.util.*;

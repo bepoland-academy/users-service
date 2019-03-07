@@ -6,9 +6,9 @@ import org.mockito.Mockito;
 import pl.betse.beontime.bo.DepartmentDTO;
 import pl.betse.beontime.controller.DepartmentController;
 import pl.betse.beontime.entity.DepartmentEntity;
-import pl.betse.beontime.model.custom_exceptions.DepartmentNotFoundException;
-import pl.betse.beontime.model.custom_exceptions.EmptyDepartmentListException;
-import pl.betse.beontime.model_mapper.DepartmentModelMapper;
+import pl.betse.beontime.model.exception.DepartmentNotFoundException;
+import pl.betse.beontime.model.exception.EmptyDepartmentListException;
+import pl.betse.beontime.mapper.DepartmentModelMapper;
 import pl.betse.beontime.service.DepartmentService;
 import pl.betse.beontime.service.UsersService;
 
