@@ -25,7 +25,7 @@ class DepartmentServiceTest {
     @BeforeEach
     void setup() {
         departmentService = new DepartmentServiceImpl(departamentRepository);
-        simpleDepartment = new DepartmentEntity(1, "BANKING");
+//        simpleDepartment = new DepartmentEntity(1, "BANKING");
     }
 
     @Test

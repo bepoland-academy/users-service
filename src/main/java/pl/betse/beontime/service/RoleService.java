@@ -9,8 +9,6 @@ public interface RoleService {
 
     List<RoleEntity> findAll();
 
-    RoleEntity findByName(String roleName);
-
     RoleEntity findById(Integer roleId);
 
     boolean existsById(Integer roleId);

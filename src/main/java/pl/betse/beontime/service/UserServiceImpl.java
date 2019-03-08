@@ -27,13 +27,13 @@ public class UserServiceImpl implements UsersService {
     }
 
     @Override
-    public boolean existsByUserId(Integer userId) {
-        return userRepository.existsByUserId(userId);
+    public boolean existsById(Integer userId) {
+        return userRepository.existsById(userId);
     }
 
     @Override
-    public boolean existsByEmailLogin(String userEmail) {
-        return userRepository.existsByEmailLogin(userEmail);
+    public boolean existsByEmail(String userEmail) {
+        return userRepository.existsByEmail(userEmail);
     }
 
     @Override
@@ -42,8 +42,8 @@ public class UserServiceImpl implements UsersService {
     }
 
     @Override
-    public List<UserEntity> findByDepartmentEntity(DepartmentEntity department) {
-        return userRepository.findByDepartmentEntity(department);
+    public List<UserEntity> findByDepartment(DepartmentEntity department) {
+        return userRepository.findByDepartment(department);
     }
 
     @Override
@@ -52,15 +52,14 @@ public class UserServiceImpl implements UsersService {
     }
 
 
-
     @Override
-    public UserEntity findByGUID(String GUID) {
-        return userRepository.findByUserGUID(GUID);
+    public UserEntity findByGuid(String GUID) {
+        return userRepository.findByGuid(GUID);
     }
 
     @Override
-    public boolean existsByGUID(String GUID) {
-        return userRepository.existsByUserGUID(GUID);
+    public boolean existsByGuid(String GUID) {
+        return userRepository.existsByGuid(GUID);
     }
 
     @Override

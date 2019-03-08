@@ -9,7 +9,6 @@ import pl.betse.beontime.entity.RoleEntity;
 public interface RoleRepository extends JpaRepository<RoleEntity, Integer> {
 
 
-    RoleEntity findByRole(String roleName);
 
     boolean existsById(Integer roleId);
 

@@ -2,7 +2,6 @@ package pl.betse.beontime.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import pl.betse.beontime.entity.DepartmentEntity;
@@ -12,20 +11,19 @@ import java.util.List;
 
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Integer> {
+    // EXISTS
+    boolean existsById(Integer userID);
 
+    boolean existsByEmail(String userEmail);
 
+    boolean existsByGuid(String GUID);
 
-    boolean existsByUserId(Integer userID);
+    // SPRING DATA
+    List<UserEntity> findByDepartment(DepartmentEntity departmentEntity);
 
-    boolean existsByEmailLogin(String userEmail);
+    UserEntity findByGuid(String GUID);
 
-    boolean existsByUserGUID(String GUID);
-
-
-    @Query("SELECT user FROM UserEntity user where  lower(user.emailLogin)=lower(:userEmail)")
+    // CUSTOM QUERIES
+    @Query("SELECT user FROM UserEntity user where  lower(user.email)=lower(:userEmail)")
     UserEntity findByEmail(@Param("userEmail") String userEmail);
-
-    List<UserEntity> findByDepartmentEntity(DepartmentEntity departmentEntity);
-
-    UserEntity findByUserGUID(String GUID);
 }

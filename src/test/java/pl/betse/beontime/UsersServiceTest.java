@@ -4,8 +4,6 @@ package pl.betse.beontime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import pl.betse.beontime.entity.DepartmentEntity;
 import pl.betse.beontime.entity.UserEntity;
 import pl.betse.beontime.repository.UserRepository;
@@ -29,8 +27,8 @@ class UsersServiceTest {
     @BeforeEach
     void setup() {
         userService = new UserServiceImpl(userRepository);
-        simpleDepartment = new DepartmentEntity(1, "BANKING");
-        simpleUser = new UserEntity(1,"CustomGUID", "test@be-tse.com", "Test", "Test", "Password", false, simpleDepartment, null);
+//        simpleDepartment = new DepartmentEntity(1, "BANKING");
+//        simpleUser = new UserEntity(1,"CustomGUID", "test@be-tse.com", "Test", "Test", "Password", false, simpleDepartment, null);
     }
 
 
@@ -48,20 +46,20 @@ class UsersServiceTest {
 
     @Test
     void checkExistsByEmailLogin() {
-        when(userRepository.existsByEmailLogin("test@be-tse.com")).thenReturn(true);
-        assertTrue(userService.existsByEmailLogin("test@be-tse.com"));
+        when(userRepository.existsByEmail("test@be-tse.com")).thenReturn(true);
+        assertTrue(userService.existsByEmail("test@be-tse.com"));
     }
 
     @Test
     void checkExistById() {
-        when(userRepository.existsByUserId(1)).thenReturn(true);
-        assertTrue(userService.existsByUserId(1));
+        when(userRepository.existsById(1)).thenReturn(true);
+        assertTrue(userService.existsById(1));
     }
 
     @Test
     void checkFindByDepartmentEntity() {
-        when(userRepository.findByDepartmentEntity(simpleDepartment)).thenReturn(Collections.singletonList(simpleUser));
-        assertTrue(userService.findByDepartmentEntity(simpleDepartment).size() > 0);
+//        when(userRepository.findByDepartmentEntity(simpleDepartment)).thenReturn(Collections.singletonList(simpleUser));
+        assertTrue(userService.findByDepartment(simpleDepartment).size() > 0);
     }
 
     @Test

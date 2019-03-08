@@ -1,23 +1,25 @@
 package pl.betse.beontime.mapper;
 
 import org.springframework.stereotype.Component;
-import pl.betse.beontime.bo.DepartmentDTO;
+import pl.betse.beontime.bo.DepartmentBo;
 import pl.betse.beontime.entity.DepartmentEntity;
 
 @Component
 public class DepartmentModelMapper {
 
-    public static DepartmentDTO fromDepartmentEntityToDepartmentDTO(DepartmentEntity departmentEntity) {
-        return departmentEntity == null ? null : DepartmentDTO.builder()
-                .id(departmentEntity.getId())
-                .name(departmentEntity.getName())
-                .build();
+    public static DepartmentBo fromDepartmentEntityToDepartmentDTO(DepartmentEntity departmentEntity) {
+//        return department == null ? null : DepartmentBo.builder()
+//                .guid(String.valueOf(department.getId()))
+//                .name(department.getName())
+//                .build();
+        return null;
     }
 
-    public static DepartmentEntity fromDepartmentDtoToDepartmentEntity(DepartmentDTO departmentDTO) {
-        return departmentDTO == null ? null : DepartmentEntity.builder()
-                .id(departmentDTO.getId())
-                .name(departmentDTO.getName())
-                .build();
+    public static DepartmentEntity fromDepartmentDtoToDepartmentEntity(DepartmentBo departmentBO) {
+//        return departmentBO == null ? null : DepartmentEntity.builder()
+//                .id(Integer.valueOf(departmentBO.getGuid()))
+//                .name(departmentBO.getName())
+//                .build();
+        return null;
     }
 }

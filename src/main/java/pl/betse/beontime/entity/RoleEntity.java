@@ -1,16 +1,16 @@
 package pl.betse.beontime.entity;
 
 import lombok.*;
-import pl.betse.beontime.model.enums.RoleEnum;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "ROLE")
 public class RoleEntity {
@@ -20,20 +20,11 @@ public class RoleEntity {
     @Column(name = "ROLE_ID")
     private int id;
 
-    @Column(nullable = false, unique = true)
-    private String role;
+    @Column(name = "NAME", nullable = false, unique = true)
+    private String name;
 
-    @ManyToMany(mappedBy = "roles")
-    private Set<UserEntity> userEntities;
-
-    public RoleEntity(RoleEnum roleEnum) {
-        this.role = roleEnum.name();
-    }
-
-
-
-
-
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
+    private List<UserEntity> userEntities;
 
     /*ADMINISTRATION,
     CONSULTANT,

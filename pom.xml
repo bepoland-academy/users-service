@@ -70,8 +70,8 @@
 
         <!--Database dependencies-->
         <dependency>
-            <groupId>org.liquibase</groupId>
-            <artifactId>liquibase-core</artifactId>
+        <groupId>org.liquibase</groupId>
+        <artifactId>liquibase-core</artifactId>
         </dependency>
         <dependency>
             <groupId>mysql</groupId>
@@ -79,14 +79,14 @@
             <version>8.0.15</version>
         </dependency>
         <dependency>
-            <groupId>org.liquibase</groupId>
-            <artifactId>liquibase-maven-plugin</artifactId>
-            <version>3.6.3</version>
+        <groupId>org.liquibase</groupId>
+        <artifactId>liquibase-maven-plugin</artifactId>
+        <version>3.6.3</version>
         </dependency>
         <dependency>
-            <groupId>org.liquibase.ext</groupId>
-            <artifactId>liquibase-hibernate5</artifactId>
-            <version>3.6</version>
+        <groupId>org.liquibase.ext</groupId>
+        <artifactId>liquibase-hibernate5</artifactId>
+        <version>3.6</version>
         </dependency>
         <dependency>
             <groupId>com.mchange</groupId>

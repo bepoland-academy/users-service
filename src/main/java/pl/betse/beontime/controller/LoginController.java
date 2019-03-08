@@ -2,7 +2,7 @@ package pl.betse.beontime.controller;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import pl.betse.beontime.bo.UserDTO;
+import pl.betse.beontime.bo.UserBo;
 import pl.betse.beontime.entity.UserEntity;
 import pl.betse.beontime.model.exception.UserBadCredentialException;
 import pl.betse.beontime.model.exception.UserNotFoundException;
@@ -23,20 +23,16 @@ public class LoginController {
         this.passwordEncoder = passwordEncoder;
     }
 
-
-
     @GetMapping
     public @ResponseBody
-    UserDTO checkUserCredentials(@RequestParam("email") String email, @RequestParam("pass") String password) {
-        if (!usersService.existsByEmailLogin(email)) {
+    UserBo checkUserCredentials(@RequestParam("email") String email, @RequestParam("pass") String password) {
+        if (!usersService.existsByEmail(email)) {
             throw new UserNotFoundException();
         }
         UserEntity userEntity = usersService.getUserByEmail(email);
         if (!passwordEncoder.matches(password, userEntity.getPassword())) {
             throw new UserBadCredentialException();
         }
-
-
         return UserModelMapper.fromUserEntityToUserDTO(userEntity);
     }
 

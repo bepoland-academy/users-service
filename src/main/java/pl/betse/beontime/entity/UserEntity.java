@@ -1,71 +1,49 @@
 package pl.betse.beontime.entity;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Objects;
-import java.util.Set;
+import java.util.List;
 
-@Getter
-@Setter
+@Data
 @Builder
-@ToString
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "USER")
 public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_ID")
-    private Integer userId;
+    @Column(name = "USER_ID")
+    private Integer id;
 
-    @Column(name = "user_GUID", nullable = false, unique = true)
-    private String userGUID;
+    @Column(name = "USER_GUID", nullable = false, unique = true)
+    private String guid;
 
-    @Column(nullable = false, unique = true)
-    private String emailLogin;
+    @Column(name = "EMAIL", nullable = false, unique = true)
+    private String email;
 
+    @Column(name = "FIRST_NAME")
     private String firstName;
 
+    @Column(name = "LAST_NAME")
     private String lastName;
 
-
-    @Column(nullable = false)
+    @Column(name = "PASSWORD", nullable = false)
     private String password;
 
-    private boolean isActive;
+    @Column(name = "ACTIVE")
+    private boolean active;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "DEPARTMENT_ID")
-    private DepartmentEntity departmentEntity;
+    private DepartmentEntity department;
 
     @ManyToMany
-    @JoinTable(name = "USER_ROLES",
+    @JoinTable(name = "USER_ROLE",
             joinColumns = @JoinColumn(name = "USER_ID"),
             inverseJoinColumns = @JoinColumn(name = "ROLE_ID"))
-    private Set<RoleEntity> roles;
+    private List<RoleEntity> roles;
 
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof UserEntity)) return false;
-        UserEntity that = (UserEntity) o;
-        return getUserId().equals(that.getUserId()) &&
-                getUserGUID().equals(that.getUserGUID()) &&
-                getEmailLogin().equals(that.getEmailLogin()) &&
-                getFirstName().equals(that.getFirstName()) &&
-                getLastName().equals(that.getLastName());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getUserId(), getUserGUID(), getEmailLogin(), getFirstName(), getLastName());
-    }
 }
 

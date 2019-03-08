@@ -11,11 +11,11 @@ public interface UsersService {
 
     UserEntity findById(Integer userId);
 
-    boolean existsByUserId(Integer userId);
+    boolean existsById(Integer userId);
 
-    boolean existsByEmailLogin(String userEmail);
+    boolean existsByEmail(String userEmail);
 
-    List<UserEntity> findByDepartmentEntity(DepartmentEntity departmentId);
+    List<UserEntity> findByDepartment(DepartmentEntity departmentId);
 
     UserEntity getUserByEmail(String userEmail);
 
@@ -25,7 +25,7 @@ public interface UsersService {
 
 
 
-    UserEntity findByGUID(String GUID);
+    UserEntity findByGuid(String GUID);
 
-    boolean existsByGUID(String GUID);
+    boolean existsByGuid(String GUID);
 }

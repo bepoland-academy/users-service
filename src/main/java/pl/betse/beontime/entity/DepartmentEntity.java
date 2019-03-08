@@ -1,16 +1,13 @@
 package pl.betse.beontime.entity;
 
 import lombok.*;
-import pl.betse.beontime.model.enums.DepartmentEnum;
 
 import javax.persistence.*;
 
 @Data
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
-@Table(name = "DEPARTMENTS")
+@Table(name = "DEPARTMENT")
 public class DepartmentEntity {
 
 
@@ -19,15 +16,12 @@ public class DepartmentEntity {
     @Column(name = "DEPARTMENT_ID")
     private int id;
 
-     public DepartmentEntity(DepartmentEnum name) {
-        this.name = name.name();
-    }
+    @Column(name = "DEPARTMENT_GUID")
+    private String guid;
 
 
-    @Column(nullable = false,unique = true)
+    @Column(name = "NAME", nullable = false, unique = true)
     private String name;
-
-
 
 
 

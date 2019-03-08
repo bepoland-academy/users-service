@@ -1,25 +1,25 @@
 package pl.betse.beontime.controller;
 
-import org.apache.commons.lang3.EnumUtils;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import pl.betse.beontime.bo.UserDTO;
+import pl.betse.beontime.bo.UserBo;
 import pl.betse.beontime.entity.RoleEntity;
 import pl.betse.beontime.entity.UserEntity;
 import pl.betse.beontime.mapper.UserModelMapper;
-import pl.betse.beontime.model.enums.DepartmentEnum;
-import pl.betse.beontime.model.enums.RoleEnum;
-import pl.betse.beontime.model.exception.*;
+import pl.betse.beontime.model.exception.EmptyUserListException;
+import pl.betse.beontime.model.exception.UserExistException;
+import pl.betse.beontime.model.exception.UserNotFoundException;
 import pl.betse.beontime.model.validation.CreateUserValidation;
 import pl.betse.beontime.service.DepartmentService;
 import pl.betse.beontime.service.RoleService;
 import pl.betse.beontime.service.UsersService;
-import pl.betse.beontime.utils.CustomResponseMessage;
-import pl.betse.beontime.utils.GUIDGenerator;
+import pl.betse.beontime.utils.ErrorResponse;
 import pl.betse.beontime.utils.UpperAndLoweCaseCorrector;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -44,8 +44,8 @@ public class UserController {
 
     @GetMapping
     public @ResponseBody
-    List<UserDTO> obtainAllUsers() {
-        List<UserDTO> userList = usersService.findAll().stream()
+    List<UserBo> obtainAllUsers() {
+        List<UserBo> userList = usersService.findAll().stream()
                 .map(UserModelMapper::fromUserEntityToUserDTO)
                 .collect(Collectors.toList());
         if (userList.isEmpty()) {
@@ -56,19 +56,19 @@ public class UserController {
 
     @GetMapping(path = "/{guid}")
     public @ResponseBody
-    UserDTO getUserById(@PathVariable("guid") String userGUID) {
+    UserBo getUserById(@PathVariable("guid") String userGUID) {
 
-        if (!usersService.existsByGUID(userGUID)) {
+        if (!usersService.existsByGuid(userGUID)) {
             throw new UserNotFoundException();
         }
 
-        return UserModelMapper.fromUserEntityToUserDTO(usersService.findByGUID(userGUID));
+        return UserModelMapper.fromUserEntityToUserDTO(usersService.findByGuid(userGUID));
     }
 
     @GetMapping(path = "/email")
     public @ResponseBody
-    UserDTO getUserByEmail(@RequestParam("value") String email) {
-        if (!usersService.existsByEmailLogin(email)) {
+    UserBo getUserByEmail(@RequestParam("value") String email) {
+        if (!usersService.existsByEmail(email)) {
             throw new UserNotFoundException();
         }
         return UserModelMapper.fromUserEntityToUserDTO(usersService.getUserByEmail(email));
@@ -77,36 +77,36 @@ public class UserController {
 
     @PostMapping
     public @ResponseBody
-    UserDTO createNewUser(@RequestBody @Validated(CreateUserValidation.class) UserDTO userDTO) {
+    UserBo createNewUser(@RequestBody @Validated(CreateUserValidation.class) UserBo userBO) {
 
-        if (usersService.existsByEmailLogin(userDTO.getEmail())) {
+        if (usersService.existsByEmail(userBO.getEmail())) {
             throw new UserExistException();
         }
 
-        if (!EnumUtils.isValidEnum(DepartmentEnum.class, userDTO.getDepartment().toUpperCase())) {
-            throw new DepartmentNotFoundException();
-        }
+//        if (!EnumUtils.isValidEnum(DepartmentEnum.class, userBO.getDepartment().toUpperCase())) {
+//            throw new DepartmentNotFoundException();
+//        }
 
-        Set<RoleEntity> newRoleEntities = new HashSet<>();
-        if (userDTO.getRoles() != null) {
-            if (validateUserRoles(userDTO, newRoleEntities))
-                throw new RoleNotFoundException();
-        }
+        List<RoleEntity> newRoleEntities = new ArrayList<>();
+//        if (userBO.getRoles() != null) {
+//            if (validateUserRoles(userBO, newRoleEntities))
+//                throw new RoleNotFoundException();
+//        }
 
         try {
-            userDTO.setFirstName(UpperAndLoweCaseCorrector.fix(userDTO.getFirstName()));
-            userDTO.setLastName(UpperAndLoweCaseCorrector.fix(userDTO.getLastName()));
+            userBO.setFirstName(UpperAndLoweCaseCorrector.fix(userBO.getFirstName()));
+            userBO.setLastName(UpperAndLoweCaseCorrector.fix(userBO.getLastName()));
         } catch (Exception e) {
         }
 
-        userDTO.setUserId(GUIDGenerator.generate());
+//        userBO.setUserId(GUIDGenerator.generate());
+//
+//        System.out.println(userBO.getUserId());
 
-        System.out.println(userDTO.getUserId());
-
-        UserEntity newUserEntity = UserModelMapper.fromUserDtoToUserEntity(userDTO);
+        UserEntity newUserEntity = UserModelMapper.fromUserDtoToUserEntity(userBO);
         // SET PASSWORD FOR EVERY NEW USER (HARDCODED FOR NOW!)
         newUserEntity.setPassword(passwordEncoder.encode("qwe123!"));
-        newUserEntity.setDepartmentEntity(departmentService.findByName(userDTO.getDepartment()));
+        newUserEntity.setDepartment(departmentService.findByName(userBO.getDepartment()));
         newUserEntity.setRoles(newRoleEntities);
 
         usersService.save(newUserEntity);
@@ -117,46 +117,46 @@ public class UserController {
 
     @PutMapping(path = "/{guid}")
     public @ResponseBody
-    UserDTO updateUser(@PathVariable("guid") String userGuid, @RequestBody UserDTO userDTO) {
+    UserBo updateUser(@PathVariable("guid") String userGuid, @RequestBody UserBo userBO) {
 
-        if (!usersService.existsByGUID(userGuid)) {
+        if (!usersService.existsByGuid(userGuid)) {
             throw new UserNotFoundException();
         }
 
-        UserEntity userEntity = usersService.findByGUID(userGuid);
+        UserEntity userEntity = usersService.findByGuid(userGuid);
 
-        if (userDTO.getDepartment() != null) {
-            if (!EnumUtils.isValidEnum(DepartmentEnum.class, userDTO.getDepartment().toUpperCase())) {
-                throw new DepartmentNotFoundException();
-            }
-            userEntity.setDepartmentEntity(departmentService.findByName(userDTO.getDepartment()));
-        }
+//        if (userBO.getDepartment() != null) {
+//            if (!EnumUtils.isValidEnum(DepartmentEnum.class, userBO.getDepartment().toUpperCase())) {
+//                throw new DepartmentNotFoundException();
+//            }
+//            userEntity.setDepartment(departmentService.findByName(userBO.getDepartment()));
+//        }
 
         Set<RoleEntity> newRoleEntities = new HashSet<>();
 
-        if (userDTO.getRoles() != null) {
-            if (validateUserRoles(userDTO, newRoleEntities))
-                throw new RoleNotFoundException();
-            userEntity.setRoles(newRoleEntities);
+//        if (userBO.getRoles() != null) {
+//            if (validateUserRoles(userBO, newRoleEntities))
+//                throw new RoleNotFoundException();
+//            userEntity.setRoles(newRoleEntities);
+//        }
+        if (userBO.getEmail() != null) {
+            userEntity.setEmail(userBO.getEmail());
         }
-        if (userDTO.getEmail() != null) {
-            userEntity.setEmailLogin(userDTO.getEmail());
+        if (userBO.getFirstName() != null) {
+            userEntity.setFirstName(UpperAndLoweCaseCorrector.fix(userBO.getFirstName()));
         }
-        if (userDTO.getFirstName() != null) {
-            userEntity.setFirstName(UpperAndLoweCaseCorrector.fix(userDTO.getFirstName()));
+        if (userBO.getLastName() != null) {
+            userEntity.setLastName(UpperAndLoweCaseCorrector.fix(userBO.getLastName()));
         }
-        if (userDTO.getLastName() != null) {
-            userEntity.setLastName(UpperAndLoweCaseCorrector.fix(userDTO.getLastName()));
-        }
-//        if (userDTO.getPassword() != null) {
-//            userEntity.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+//        if (userBO.getPassword() != null) {
+//            userEntity.setPassword(passwordEncoder.encode(userBO.getPassword()));
 //        }
 
-        if (userDTO.isActive()) {
+        if (userBO.isActive()) {
             userEntity.setActive(true);
         }
 
-        if (!userDTO.isActive()) {
+        if (!userBO.isActive()) {
             userEntity.setActive(false);
         }
 
@@ -168,25 +168,13 @@ public class UserController {
 
     @DeleteMapping(path = "/{guid}")
     public @ResponseBody
-    CustomResponseMessage deleteUserById(@PathVariable("guid") String userGUID) {
 
-        if (!usersService.existsByGUID(userGUID)) {
+//only OK 200
+    ResponseEntity<ErrorResponse> deleteUserById(@PathVariable("guid") String userGUID) {
+        if (!usersService.existsByGuid(userGUID)) {
             throw new UserNotFoundException();
         }
-
-        usersService.deleteById(usersService.findByGUID(userGUID).getUserId());
-
-        return new CustomResponseMessage(HttpStatus.OK, "User successfully deleted!");
-    }
-
-    private boolean validateUserRoles(@Validated(CreateUserValidation.class) @RequestBody UserDTO userDTO, Set<RoleEntity> newRoleEntities) {
-        for (String role : userDTO.getRoles()) {
-            if (!EnumUtils.isValidEnum(RoleEnum.class, role.toUpperCase())) {
-                return true;
-            } else {
-                newRoleEntities.add(roleService.findByName(role));
-            }
-        }
-        return false;
+        usersService.deleteById(usersService.findByGuid(userGUID).getId());
+        return new ResponseEntity<>(new ErrorResponse("User successfully deleted!"), HttpStatus.OK);
     }
 }

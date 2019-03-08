@@ -2,9 +2,20 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
-    <changeSet author="wkrzyzanowski (generated)" id="1551704201250-1">
-        <createTable tableName="departments">
+    <changeSet author="Wiktor Krzyzanowski (generated)" id="1552034808440-1">
+        <createTable tableName="department">
             <column autoIncrement="true" name="department_id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="department_guid" type="VARCHAR(255)"/>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Wiktor Krzyzanowski (generated)" id="1552034808440-2">
+        <createTable tableName="role">
+            <column autoIncrement="true" name="role_id" type="INT">
                 <constraints primaryKey="true"/>
             </column>
             <column name="name" type="VARCHAR(255)">
@@ -12,87 +23,70 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="wkrzyzanowski (generated)" id="1551704201250-2">
-        <createTable tableName="role">
-            <column autoIncrement="true" name="role_id" type="INT">
-                <constraints primaryKey="true"/>
-            </column>
-            <column name="role" type="VARCHAR(255)">
-                <constraints nullable="false" unique="true"/>
-            </column>
-        </createTable>
-    </changeSet>
-    <changeSet author="wkrzyzanowski (generated)" id="1551704201250-3">
+    <changeSet author="Wiktor Krzyzanowski (generated)" id="1552034808440-3">
         <createTable tableName="user">
             <column autoIncrement="true" name="user_id" type="INT">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="email_login" type="VARCHAR(255)">
+            <column name="active" type="BIT(1)"/>
+            <column name="email" type="VARCHAR(255)">
                 <constraints nullable="false" unique="true"/>
             </column>
             <column name="first_name" type="VARCHAR(255)"/>
-            <column name="is_active" type="BIT(1)">
-                <constraints nullable="false"/>
+            <column name="user_guid" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
             </column>
             <column name="last_name" type="VARCHAR(255)"/>
             <column name="password" type="VARCHAR(255)">
                 <constraints nullable="false"/>
-            </column>
-            <column name="user_guid" type="VARCHAR(255)">
-                <constraints nullable="false" unique="true"/>
             </column>
             <column name="department_id" type="INT">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="wkrzyzanowski (generated)" id="1551704201250-4">
-        <createTable tableName="user_roles">
+    <changeSet author="Wiktor Krzyzanowski (generated)" id="1552034808440-4">
+        <createTable tableName="user_role">
             <column name="user_id" type="INT">
-                <constraints primaryKey="true"/>
+                <constraints nullable="false"/>
             </column>
             <column name="role_id" type="INT">
-                <constraints primaryKey="true"/>
+                <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="wkrzyzanowski (generated)" id="1551704201250-5">
-        <createIndex indexName="FK7hl8wrjlq8jrgauksuce985w7" tableName="user">
-            <column name="department_id"/>
+    <changeSet author="Wiktor Krzyzanowski (generated)" id="1552034808440-5">
+        <createIndex indexName="FK859n2jvi8ivhui0rl0esws6o" tableName="user_role">
+            <column name="user_id"/>
         </createIndex>
     </changeSet>
-    <changeSet author="wkrzyzanowski (generated)" id="1551704201250-6">
-        <createIndex indexName="FKrhfovtciq1l558cw6udg0h0d3" tableName="user_roles">
+    <changeSet author="Wiktor Krzyzanowski (generated)" id="1552034808440-6">
+        <createIndex indexName="FKa68196081fvovjhkek5m97n3y" tableName="user_role">
             <column name="role_id"/>
         </createIndex>
     </changeSet>
-    <changeSet author="wkrzyzanowski (generated)" id="1551704201250-7">
-        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="user_roles"
-                                 constraintName="FK55itppkw3i07do3h7qoclqd4k" deferrable="false"
-                                 initiallyDeferred="false" onDelete=
-                                         "NO ACTION" onUpdate="NO ACTION" referencedColumnNames="user_id"
-                                 referencedTableName="user" validate="true"/>
+    <changeSet author="Wiktor Krzyzanowski (generated)" id="1552034808440-7">
+        <createIndex indexName="FKgkh2fko1e4ydv1y6vtrwdc6my" tableName="user">
+            <column name="department_id"/>
+        </createIndex>
     </changeSet>
-    <changeSet author="wkrzyzanowski (generated)" id="1551704201250-8">
-        <addForeignKeyConstraint baseColumnNames="department_id" baseTableName="user"
-                                 constraintName="FK7hl8wrjlq8jrgauksuce985w7" deferrable="false"
-                                 initiallyDeferred="false" onDelete=
-                                         "NO ACTION" onUpdate="NO ACTION" referencedColumnNames="department_id"
-                                 referencedTableName="departments" validate="true"/>
+    <changeSet author="Wiktor Krzyzanowski (generated)" id="1552034808440-8">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="user_role" constraintName="FK859n2jvi8ivhui0rl0esws6o" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="user_id" referencedTableName="user" validate="true"/>
     </changeSet>
-    <changeSet author="wkrzyzanowski (generated)" id="1551704201250-9">
-        <addForeignKeyConstraint baseColumnNames="role_id" baseTableName="user_roles"
-                                 constraintName="FKrhfovtciq1l558cw6udg0h0d3" deferrable="false"
-                                 initiallyDeferred="false" onDelete=
-                                         "NO ACTION" onUpdate="NO ACTION" referencedColumnNames="role_id"
-                                 referencedTableName="role" validate="true"/>
+    <changeSet author="Wiktor Krzyzanowski (generated)" id="1552034808440-9">
+        <addForeignKeyConstraint baseColumnNames="role_id" baseTableName="user_role" constraintName="FKa68196081fvovjhkek5m97n3y" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="role_id" referencedTableName="role" validate="true"/>
+    </changeSet>
+    <changeSet author="Wiktor Krzyzanowski (generated)" id="1552034808440-10">
+        <addForeignKeyConstraint baseColumnNames="department_id" baseTableName="user" constraintName="FKgkh2fko1e4ydv1y6vtrwdc6my" deferrable="false" initiallyDeferred="false" onDelete=
+                "NO ACTION" onUpdate="NO ACTION" referencedColumnNames="department_id" referencedTableName="department" validate="true"/>
     </changeSet>
     <changeSet author="liquibase-docs" id="sqlFile-example">
-    <sqlFile dbms="mysql"
-    encoding="utf8"
-    path="data.sql"
-    relativeToChangelogFile="true"
-    splitStatements="true"
-    stripComments="true"/>
+        <sqlFile dbms="mysql"
+                 encoding="utf8"
+                 path="data.sql"
+                 relativeToChangelogFile="true"
+                 splitStatements="true"
+                 stripComments="true"/>
     </changeSet>
 </databaseChangeLog>
+

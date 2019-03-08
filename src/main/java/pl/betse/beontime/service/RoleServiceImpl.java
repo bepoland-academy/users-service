@@ -29,10 +29,7 @@ public class RoleServiceImpl implements RoleService {
         return roleRepository.findById(roleId).get();
     }
 
-    @Override
-    public RoleEntity findByName(String roleName) {
-        return roleRepository.findByRole(roleName);
-    }
+
 
     @Override
     public void save(RoleEntity roleEntity) {
