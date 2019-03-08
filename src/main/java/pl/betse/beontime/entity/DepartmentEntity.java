@@ -13,10 +13,10 @@ public class DepartmentEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "DEPARTMENT_ID")
-    private int id;
+    @Column(name = "DEPARTMENT_ID", nullable = false, unique = true)
+    private Long id;
 
-    @Column(name = "DEPARTMENT_GUID")
+    @Column(name = "DEPARTMENT_GUID", nullable = false, unique = true)
     private String guid;
 
 

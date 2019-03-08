@@ -174,7 +174,7 @@ public class UserController {
         if (!usersService.existsByGuid(userGUID)) {
             throw new UserNotFoundException();
         }
-        usersService.deleteById(usersService.findByGuid(userGUID).getId());
+        //usersService.deleteById(usersService.findByGuid(userGUID).getId());
         return new ResponseEntity<>(new ErrorResponse("User successfully deleted!"), HttpStatus.OK);
     }
 }

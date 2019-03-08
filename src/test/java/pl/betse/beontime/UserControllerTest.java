@@ -36,7 +36,7 @@ class UserControllerTest {
 
     @BeforeEach
     void setup() {
-        roleEntity = new RoleEntity(1, "ADMINISTRATION", new ArrayList<>());
+//        roleEntity = new RoleEntity(1, "ADMINISTRATION", new ArrayList<>());
         roleEntitySet = new ArrayList<>();
         roleEntitySet.add(roleEntity);
 //        department = new DepartmentEntity(DepartmentEnum.DIGITAL);

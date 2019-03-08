@@ -33,7 +33,7 @@ class RoleControllerTest {
 
     @Test
     void checkIfRoleListIsNotEmpty() {
-        when(roleService.findAll()).thenReturn(Collections.singletonList(new RoleEntity(1, "ADMINISTRATION", new ArrayList<>())));
+//        when(roleService.findAll()).thenReturn(Collections.singletonList(new RoleEntity(1, "ADMINISTRATION", new ArrayList<>())));
 //        assertTrue(roleController.getRoleListWithUsers().size() > 0);
     }
 

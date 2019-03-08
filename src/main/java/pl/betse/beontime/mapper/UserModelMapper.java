@@ -2,31 +2,32 @@ package pl.betse.beontime.mapper;
 
 import org.springframework.stereotype.Component;
 import pl.betse.beontime.bo.UserBo;
+import pl.betse.beontime.entity.RoleEntity;
 import pl.betse.beontime.entity.UserEntity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class UserModelMapper {
 
     public static UserBo fromUserEntityToUserDTO(UserEntity userEntity) {
 
-//        List<String> userRoles = new ArrayList<>();
-//
-//        for (RoleEntity roleEntity : userEntity.getRoles()) {
-//            userRoles.add(roleEntity.getRole());
-//        }
-//
-//        return userEntity == null ? null : UserBo.builder()
-//                .userId(userEntity.getUserGUID())
-//                .email(userEntity.getEmailLogin())
-//                .firstName(userEntity.getFirstName())
-//                .lastName(userEntity.getLastName())
-////                .password(userEntity.getPassword())
-//                .active(userEntity.isActive())
-//                .department(userEntity.getDepartment().getName())
-//                .roles(userRoles)
-//                .build();
+        List<String> roles = new ArrayList<>();
 
-        return null;
+        for (RoleEntity roleEntity : userEntity.getRoles()) {
+            roles.add(roleEntity.getName());
+        }
+
+        return UserBo.builder()
+                        .id(userEntity.getGuid())
+                        .email(userEntity.getEmail())
+                        .firstName(userEntity.getFirstName())
+                        .lastName(userEntity.getLastName())
+                        .active(userEntity.isActive())
+                        .department(userEntity.getDepartment().getName())
+                        .roles(roles)
+                        .build();
     }
 
     public static UserEntity fromUserDtoToUserEntity(UserBo userBO) {

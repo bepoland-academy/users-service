@@ -5,9 +5,11 @@
     <changeSet author="Wiktor Krzyzanowski (generated)" id="1552034808440-1">
         <createTable tableName="department">
             <column autoIncrement="true" name="department_id" type="INT">
-                <constraints primaryKey="true"/>
+                <constraints primaryKey="true" nullable="false" unique="true"/>
             </column>
-            <column name="department_guid" type="VARCHAR(255)"/>
+            <column name="department_guid" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
             <column name="name" type="VARCHAR(255)">
                 <constraints nullable="false" unique="true"/>
             </column>
@@ -16,7 +18,7 @@
     <changeSet author="Wiktor Krzyzanowski (generated)" id="1552034808440-2">
         <createTable tableName="role">
             <column autoIncrement="true" name="role_id" type="INT">
-                <constraints primaryKey="true"/>
+                <constraints primaryKey="true" nullable="false" unique="true"/>
             </column>
             <column name="name" type="VARCHAR(255)">
                 <constraints nullable="false" unique="true"/>
@@ -26,7 +28,7 @@
     <changeSet author="Wiktor Krzyzanowski (generated)" id="1552034808440-3">
         <createTable tableName="user">
             <column autoIncrement="true" name="user_id" type="INT">
-                <constraints primaryKey="true"/>
+                <constraints primaryKey="true" nullable="false" unique="true"/>
             </column>
             <column name="active" type="BIT(1)"/>
             <column name="email" type="VARCHAR(255)">
@@ -71,14 +73,23 @@
         </createIndex>
     </changeSet>
     <changeSet author="Wiktor Krzyzanowski (generated)" id="1552034808440-8">
-        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="user_role" constraintName="FK859n2jvi8ivhui0rl0esws6o" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="user_id" referencedTableName="user" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="user_role"
+                                 constraintName="FK859n2jvi8ivhui0rl0esws6o" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="user_id" referencedTableName="user" validate="true"/>
     </changeSet>
     <changeSet author="Wiktor Krzyzanowski (generated)" id="1552034808440-9">
-        <addForeignKeyConstraint baseColumnNames="role_id" baseTableName="user_role" constraintName="FKa68196081fvovjhkek5m97n3y" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="role_id" referencedTableName="role" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="role_id" baseTableName="user_role"
+                                 constraintName="FKa68196081fvovjhkek5m97n3y" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="role_id" referencedTableName="role" validate="true"/>
     </changeSet>
     <changeSet author="Wiktor Krzyzanowski (generated)" id="1552034808440-10">
-        <addForeignKeyConstraint baseColumnNames="department_id" baseTableName="user" constraintName="FKgkh2fko1e4ydv1y6vtrwdc6my" deferrable="false" initiallyDeferred="false" onDelete=
-                "NO ACTION" onUpdate="NO ACTION" referencedColumnNames="department_id" referencedTableName="department" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="department_id" baseTableName="user"
+                                 constraintName="FKgkh2fko1e4ydv1y6vtrwdc6my" deferrable="false"
+                                 initiallyDeferred="false" onDelete=
+                                         "NO ACTION" onUpdate="NO ACTION" referencedColumnNames="department_id"
+                                 referencedTableName="department" validate="true"/>
     </changeSet>
     <changeSet author="liquibase-docs" id="sqlFile-example">
         <sqlFile dbms="mysql"
