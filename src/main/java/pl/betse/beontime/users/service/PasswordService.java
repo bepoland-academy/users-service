@@ -84,6 +84,8 @@ public class PasswordService {
         }
         PasswordTokenEntity passwordTokenEntity = passwordTokenRepository.findByToken(token);
         UserEntity userEntity = passwordTokenEntity.getUserEntity();
+        // MAKE USER ACTIVE
+        userEntity.setActive(true);
         userEntity.setPassword(passwordEncoder.encode(password));
         userRepository.save(userEntity);
         passwordTokenRepository.delete(passwordTokenEntity);
