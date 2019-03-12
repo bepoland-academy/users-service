@@ -45,4 +45,4 @@ jwt:
     secret: 3bJAp`]4|kzB?~8+
 
 authentication:
-  publicUrls: "/login"
+  publicUrls: "/login,/password"

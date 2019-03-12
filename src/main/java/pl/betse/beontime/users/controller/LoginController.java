@@ -22,20 +22,8 @@ public class LoginController {
     }
 
     @GetMapping
-    public @ResponseBody
-    UserBody checkUserCredentials(@RequestParam(value = "email") String email, @RequestParam("pass") String password) {
+    public UserBody checkUserCredentials(@RequestParam(value = "email") String email, @RequestParam("pass") String password) {
         return userMapper.fromBoToBody(loginService.checkIfPasswordAndEmailIsCorrect(email, password));
-    }
-
-    @PostMapping
-    UserBody changeUserPassword(
-            @RequestParam(value = "password") String password,
-            @RequestParam(value = "token") String token) {
-
-
-        passwordService.changeUserPassword(password,token);
-
-        return null;
     }
 
 }

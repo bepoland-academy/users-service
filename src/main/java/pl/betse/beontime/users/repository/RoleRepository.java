@@ -9,10 +9,8 @@ import java.util.Optional;
 
 @Repository
 public interface RoleRepository extends JpaRepository<RoleEntity, Long> {
-    // EXIST
-    boolean existsById(Long roleId);
 
-    boolean existsByName(String name);
+    boolean existsById(Long roleId);
 
     Optional<RoleEntity> findByName(String name);
 }

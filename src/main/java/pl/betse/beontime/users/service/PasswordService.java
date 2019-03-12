@@ -47,7 +47,6 @@ public class PasswordService {
                 linkBuilder.append(passwordTokenEntity.getToken());
             }
         }
-        log.debug(linkBuilder.toString());
         sendPasswordMessage(userBo, prepareEmailContextMessage(userBo, linkBuilder.toString()));
     }
 
@@ -77,7 +76,7 @@ public class PasswordService {
     }
 
 
-    public void changeUserPassword(String password, String token) {
+    public void setUserPassword(String password, String token) {
         PasswordTokenEntity passwordTokenEntity = passwordTokenRepository.findByToken(token)
                 .orElseThrow(PasswordTokenNotFoundException::new);
         UserEntity userEntity = passwordTokenEntity.getUserEntity();

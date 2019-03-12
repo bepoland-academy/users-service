@@ -3,7 +3,6 @@ package pl.betse.beontime.users.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import pl.betse.beontime.users.bo.DepartmentBo;
-import pl.betse.beontime.users.exception.DepartmentNotFoundException;
 import pl.betse.beontime.users.mapper.DepartmentMapper;
 import pl.betse.beontime.users.repository.DepartmentRepository;
 
@@ -23,14 +22,9 @@ public class DepartmentService {
     }
 
     public List<DepartmentBo> findAll() {
-        List<DepartmentBo> departmentList = departmentRepository.findAll().stream()
+        return departmentRepository.findAll().stream()
                 .map(departmentMapper::fromEntityToBo)
                 .collect(Collectors.toList());
-        if (departmentList.isEmpty()) {
-            log.error("Empty department list.");
-            throw new DepartmentNotFoundException();
-        }
-        return departmentList;
     }
 
 }
