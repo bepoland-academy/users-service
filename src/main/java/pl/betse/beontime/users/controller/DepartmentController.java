@@ -1,38 +1,36 @@
 package pl.betse.beontime.users.controller;
 
+import org.springframework.hateoas.Resources;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pl.betse.beontime.users.bo.DepartmentBo;
-import pl.betse.beontime.users.exception.EmptyDepartmentListException;
+import pl.betse.beontime.users.mapper.DepartmentMapper;
+import pl.betse.beontime.users.model.DepartmentBody;
 import pl.betse.beontime.users.service.DepartmentService;
-import pl.betse.beontime.users.service.UserService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/departments")
 @CrossOrigin("*")
 public class DepartmentController {
 
+    private final DepartmentService departmentService;
+    private final DepartmentMapper departmentMapper;
 
-    private UserService userService;
-    private DepartmentService departmentService;
-
-    public DepartmentController(UserService userService, DepartmentService departmentService) {
-        this.userService = userService;
+    public DepartmentController(DepartmentService departmentService, DepartmentMapper departmentMapper) {
         this.departmentService = departmentService;
+        this.departmentMapper = departmentMapper;
     }
 
     @GetMapping
-    public List<DepartmentBo> getDepartmentWithUsers() {
-        List<DepartmentBo> departmentList = departmentService.findAll();
-        if (departmentList.isEmpty()) {
-            throw new EmptyDepartmentListException();
-        }
-        return departmentList;
+    public ResponseEntity<Resources<DepartmentBody>> getDepartments() {
+        List<DepartmentBody> departments = departmentService.findAll().stream()
+                .map(departmentMapper::fromBoToBody)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(new Resources<>(departments));
     }
-
-
 }

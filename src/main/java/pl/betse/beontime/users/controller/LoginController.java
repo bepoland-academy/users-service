@@ -5,7 +5,6 @@ import pl.betse.beontime.users.mapper.UserMapper;
 import pl.betse.beontime.users.model.UserBody;
 import pl.betse.beontime.users.service.LoginService;
 import pl.betse.beontime.users.service.PasswordService;
-import pl.betse.beontime.users.service.UserService;
 
 @RestController
 @RequestMapping("/login")
@@ -13,13 +12,11 @@ import pl.betse.beontime.users.service.UserService;
 public class LoginController {
 
     private final LoginService loginService;
-    private final UserService userService;
     private final PasswordService passwordService;
     private final UserMapper userMapper;
 
-    public LoginController(LoginService loginService, UserService userService, PasswordService passwordService, UserMapper userMapper) {
+    public LoginController(LoginService loginService, PasswordService passwordService, UserMapper userMapper) {
         this.loginService = loginService;
-        this.userService = userService;
         this.passwordService = passwordService;
         this.userMapper = userMapper;
     }
@@ -27,7 +24,7 @@ public class LoginController {
     @GetMapping
     public @ResponseBody
     UserBody checkUserCredentials(@RequestParam(value = "email") String email, @RequestParam("pass") String password) {
-        return userMapper.mapFromUserBoToUser(loginService.checkIfPasswordAndEmailIsCorrect(email, password));
+        return userMapper.fromBoToBody(loginService.checkIfPasswordAndEmailIsCorrect(email, password));
     }
 
     @PostMapping

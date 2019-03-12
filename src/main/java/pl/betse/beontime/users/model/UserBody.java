@@ -1,5 +1,6 @@
 package pl.betse.beontime.users.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -17,6 +18,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = false)
 public class UserBody extends ResourceSupport {
 
+    @JsonIgnore
     private String userId;
 
     @NotNull(groups = {CreateUserValidation.class}, message = "Email can't be null")

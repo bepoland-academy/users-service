@@ -24,7 +24,7 @@ public class DepartmentService {
 
     public List<DepartmentBo> findAll() {
         List<DepartmentBo> departmentList = departmentRepository.findAll().stream()
-                .map(departmentMapper::fromDepartmentEntity)
+                .map(departmentMapper::fromEntityToBo)
                 .collect(Collectors.toList());
         if (departmentList.isEmpty()) {
             log.error("Empty department list.");

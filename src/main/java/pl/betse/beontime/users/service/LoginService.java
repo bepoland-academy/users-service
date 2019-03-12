@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import pl.betse.beontime.users.bo.UserBo;
 import pl.betse.beontime.users.entity.UserEntity;
 import pl.betse.beontime.users.exception.UserBadCredentialException;
-import pl.betse.beontime.users.exception.UserNotFoundException;
 import pl.betse.beontime.users.mapper.UserMapper;
 import pl.betse.beontime.users.repository.UserRepository;
 
@@ -25,15 +24,12 @@ public class LoginService {
     }
 
     public UserBo checkIfPasswordAndEmailIsCorrect(String email, String password) {
-        if (!userRepository.existsByEmail(email)) {
-            log.error("User with email " + email + " doesn't exist.");
-            throw new UserNotFoundException();
-        }
-        UserEntity userEntity = userRepository.findByEmail(email);
+        UserEntity userEntity = userRepository.findByEmail(email)
+                .orElseThrow(UserBadCredentialException::new);
         if (!passwordEncoder.matches(password, userEntity.getPassword())) {
             log.error("Incorrect password.");
             throw new UserBadCredentialException();
         }
-        return userMapper.mapFromUserEntity(userEntity);
+        return userMapper.fromEntityToBo(userEntity);
     }
 }

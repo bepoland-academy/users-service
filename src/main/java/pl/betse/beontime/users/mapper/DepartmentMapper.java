@@ -3,27 +3,20 @@ package pl.betse.beontime.users.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
-import org.springframework.stereotype.Component;
 import pl.betse.beontime.users.bo.DepartmentBo;
 import pl.betse.beontime.users.entity.DepartmentEntity;
+import pl.betse.beontime.users.model.DepartmentBody;
 
-@Component
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = GuidMapper.class)
 public abstract class DepartmentMapper {
 
-
     @Mappings({
-            @Mapping(target = "id", source = "guid"),
-            @Mapping(target = "name", source = "name")
+            @Mapping(target = "id", source = "guid")
     })
-    public abstract DepartmentBo fromDepartmentEntity(DepartmentEntity departmentEntity);
+    public abstract DepartmentBo fromEntityToBo(DepartmentEntity departmentEntity);
 
-
-    @Mappings({
-            @Mapping(target = "guid", source = "id"),
-            @Mapping(target = "name", source = "name")
-    })
-    public abstract DepartmentEntity fromDepartmentBo(DepartmentBo departmentBo);
-
-
+    @Mappings(
+            @Mapping(source = "id", target = "departmentId")
+    )
+    public abstract DepartmentBody fromBoToBody(DepartmentBo departmentBo);
 }

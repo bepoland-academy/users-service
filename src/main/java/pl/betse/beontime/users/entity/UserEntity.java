@@ -1,16 +1,15 @@
 package pl.betse.beontime.users.entity;
 
 
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
-@ToString(exclude = {"roles"})
-@Builder
 @Entity
 @Table(name = "USER")
 public class UserEntity {
@@ -49,7 +48,7 @@ public class UserEntity {
     @JoinTable(name = "USER_ROLE",
             joinColumns = @JoinColumn(name = "USER_ID"),
             inverseJoinColumns = @JoinColumn(name = "ROLE_ID"))
-    private List<RoleEntity> roles;
+    private List<RoleEntity> roles = new ArrayList<>();
 
 }
 

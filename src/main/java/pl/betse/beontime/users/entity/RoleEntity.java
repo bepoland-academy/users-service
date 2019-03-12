@@ -1,14 +1,13 @@
 package pl.betse.beontime.users.entity;
 
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @Entity
 @Table(name = "ROLE")
 public class RoleEntity {
@@ -24,7 +23,4 @@ public class RoleEntity {
     @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
     private List<UserEntity> userEntities;
 
-    /*ADMINISTRATION,
-    CONSULTANT,
-    MANAGER*/
 }

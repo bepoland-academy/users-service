@@ -78,13 +78,9 @@ public class PasswordService {
 
 
     public void changeUserPassword(String password, String token) {
-        if (!passwordTokenRepository.existsByToken(token)) {
-            log.error("Change password token doesn't exist.");
-            throw new PasswordTokenNotFoundException();
-        }
-        PasswordTokenEntity passwordTokenEntity = passwordTokenRepository.findByToken(token);
+        PasswordTokenEntity passwordTokenEntity = passwordTokenRepository.findByToken(token)
+                .orElseThrow(PasswordTokenNotFoundException::new);
         UserEntity userEntity = passwordTokenEntity.getUserEntity();
-        // MAKE USER ACTIVE
         userEntity.setActive(true);
         userEntity.setPassword(passwordEncoder.encode(password));
         userRepository.save(userEntity);

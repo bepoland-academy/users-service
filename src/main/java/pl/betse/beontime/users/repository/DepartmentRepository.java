@@ -4,14 +4,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import pl.betse.beontime.users.entity.DepartmentEntity;
 
+import java.util.Optional;
+
 
 @Repository
 public interface DepartmentRepository extends JpaRepository<DepartmentEntity, Long> {
-    // EXIST
-    boolean existsById(Long departmentId);
 
-    boolean existsByName(String departmentName);
-
-    // SPRING DATA
-    DepartmentEntity findByName(String departmentName);
+    Optional<DepartmentEntity> findByName(String departmentName);
 }
