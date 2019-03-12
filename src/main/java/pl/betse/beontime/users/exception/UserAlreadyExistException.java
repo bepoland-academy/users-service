@@ -3,5 +3,5 @@ package pl.betse.beontime.users.exception;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
-public class UserBadCredentialException extends RuntimeException {
+public class UserAlreadyExistException extends RuntimeException {
 }

@@ -23,7 +23,7 @@ public class DepartmentEntity {
     private String guid;
 
 
-    @Column(name = "NAME", nullable = false, unique = true)
+    @Column(name = "DEPARTMENT_NAME", nullable = false, unique = true)
     private String name;
 
 

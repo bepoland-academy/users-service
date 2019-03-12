@@ -13,13 +13,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableDiscoveryClient
 @LiquibaseDataSource
 @ComponentScan(basePackages = "pl.betse.beontime")
-
 public class Application {
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
-
 
     @Bean
     PasswordEncoder getEncoder() {

@@ -38,7 +38,7 @@ public class ErrorHandlerController extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(new ErrorResponse("USER NOT FOUND."), HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler({UserExistException.class})
+    @ExceptionHandler({UserAlreadyExistException.class})
     public @ResponseBody
     ResponseEntity<?> sendUserExist() {
         return new ResponseEntity<>(new ErrorResponse("USER ALREADY EXISTS"), HttpStatus.CONFLICT);

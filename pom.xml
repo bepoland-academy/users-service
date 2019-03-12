@@ -69,11 +69,19 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
 
         <!--Database dependencies-->
         <dependency>
-            <groupId>org.liquibase</groupId>
-            <artifactId>liquibase-core</artifactId>
+        <groupId>org.liquibase</groupId>
+        <artifactId>liquibase-core</artifactId>
         </dependency>
         <dependency>
             <groupId>mysql</groupId>
@@ -86,14 +94,14 @@
             <version>3.6.3</version>
         </dependency>
         <dependency>
-            <groupId>org.liquibase.ext</groupId>
-            <artifactId>liquibase-hibernate5</artifactId>
-            <version>3.6</version>
+        <groupId>org.liquibase.ext</groupId>
+        <artifactId>liquibase-hibernate5</artifactId>
+        <version>3.6</version>
         </dependency>
         <dependency>
-            <groupId>com.mchange</groupId>
-            <artifactId>c3p0</artifactId>
-            <version>0.9.5.2</version>
+        <groupId>com.mchange</groupId>
+        <artifactId>c3p0</artifactId>
+        <version>0.9.5.2</version>
         </dependency>
 
         <!--Another dependencies-->

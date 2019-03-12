@@ -15,4 +15,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     UserEntity findByGuid(String GUID);
 
     UserEntity findByEmail(String userEmail);
+
+    void deleteByGuid(String GUID);
 }

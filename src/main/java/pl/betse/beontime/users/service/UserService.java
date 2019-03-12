@@ -4,14 +4,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.betse.beontime.users.bo.UserBo;
+import pl.betse.beontime.users.entity.PasswordTokenEntity;
 import pl.betse.beontime.users.entity.RoleEntity;
 import pl.betse.beontime.users.entity.UserEntity;
-import pl.betse.beontime.users.exception.DepartmentNotFoundException;
-import pl.betse.beontime.users.exception.EmptyUserListException;
-import pl.betse.beontime.users.exception.RoleNotFoundException;
-import pl.betse.beontime.users.exception.UserNotFoundException;
+import pl.betse.beontime.users.exception.*;
 import pl.betse.beontime.users.mapper.UserMapper;
 import pl.betse.beontime.users.repository.DepartmentRepository;
+import pl.betse.beontime.users.repository.PasswordTokenRepository;
 import pl.betse.beontime.users.repository.RoleRepository;
 import pl.betse.beontime.users.repository.UserRepository;
 
@@ -27,15 +26,19 @@ public class UserService {
     private final UserRepository userRepository;
     private final DepartmentRepository departmentRepository;
     private final RoleRepository roleRepository;
+    private final PasswordTokenRepository passwordTokenRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
+    private final PasswordService passwordService;
 
-    public UserService(UserRepository userRepository, DepartmentRepository departmentRepository, RoleRepository roleRepository, UserMapper userMapper, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, DepartmentRepository departmentRepository, RoleRepository roleRepository, PasswordTokenRepository passwordTokenRepository, UserMapper userMapper, PasswordEncoder passwordEncoder, PasswordService passwordService) {
         this.userRepository = userRepository;
         this.departmentRepository = departmentRepository;
         this.roleRepository = roleRepository;
+        this.passwordTokenRepository = passwordTokenRepository;
         this.userMapper = userMapper;
         this.passwordEncoder = passwordEncoder;
+        this.passwordService = passwordService;
     }
 
     public boolean existsByEmail(String userEmail) {
@@ -79,8 +82,11 @@ public class UserService {
         return userMapper.mapFromUserEntity(userRepository.findByGuid(GUID));
     }
 
-    public UserBo createUser(UserBo userBo) {
-        existsByEmail(userBo.getEmail());
+    public UserBo createUser(UserBo userBo, String originUrl) {
+        if (userRepository.existsByEmail(userBo.getEmail())) {
+            log.error("User with email {} currently exist in database", userBo.getEmail());
+            throw new UserAlreadyExistException();
+        }
         if (!departmentRepository.existsByName(userBo.getDepartment())) {
             log.error("Department '" + userBo.getDepartment() + "' doesn't exist.");
             throw new DepartmentNotFoundException();
@@ -94,6 +100,12 @@ public class UserService {
         userEntity.setDepartment(departmentRepository.findByName(userBo.getDepartment()));
         userEntity.setRoles(buildRoleEntityListFromString(userBo.getRoles()));
         userRepository.save(userEntity);
+
+        PasswordTokenEntity passwordTokenEntity = new PasswordTokenEntity();
+        passwordTokenEntity.setUserEntity(userEntity);
+        passwordTokenEntity.setToken(UUID.randomUUID().toString());
+        passwordTokenRepository.save(passwordTokenEntity);
+        passwordService.sendMessageToUser(userMapper.mapFromUserEntity(userEntity), originUrl);
         return userMapper.mapFromUserEntity(userEntity);
     }
 
@@ -127,8 +139,9 @@ public class UserService {
         return userMapper.mapFromUserEntity(userEntity);
     }
 
-    public void deleteById(Long userId) {
-        userRepository.deleteById(userId);
+    public void deleteByGuid(String GUID) {
+        existsByGuid(GUID);
+        userRepository.deleteById(userRepository.findByGuid(GUID).getId());
     }
 
     private void editRolesIfDifferent(UserBo userBo, UserEntity userEntity) {

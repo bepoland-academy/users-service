@@ -42,6 +42,9 @@ public class UserEntity {
     @JoinColumn(name = "DEPARTMENT_ID")
     private DepartmentEntity department;
 
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "userEntity")
+    PasswordTokenEntity passwordTokenEntity;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "USER_ROLE",
             joinColumns = @JoinColumn(name = "USER_ID"),
