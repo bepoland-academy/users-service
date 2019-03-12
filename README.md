@@ -34,7 +34,10 @@ Body:
     "lastName": "UserLastName",
     "active": true,
     "department": "ExampleDepartment",
-    "roles": []
+    "roles": [
+        "CONSULTANT",
+        "MANAGER"
+    ]
 }
 ```
 
