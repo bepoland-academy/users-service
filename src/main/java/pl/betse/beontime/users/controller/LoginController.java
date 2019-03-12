@@ -32,12 +32,11 @@ public class LoginController {
 
     @PostMapping
     UserBody changeUserPassword(
-            @RequestParam(value = "email") String email,
             @RequestParam(value = "password") String password,
-            @RequestParam(value = "uniqueToken") String uniqueToken) {
-        // TO DOPIERO PO TYM JAK USER DOSTANIE LINK Z HASLEM
-//        userService.findByEmail(email);
-//        passwordService.sendMessageToUser(new UserBo());
+            @RequestParam(value = "token") String token) {
+
+
+        passwordService.changeUserPassword(password,token);
 
         return null;
     }

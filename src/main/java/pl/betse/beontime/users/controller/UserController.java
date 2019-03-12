@@ -32,7 +32,6 @@ public class UserController {
     private final UserMapper userMapper;
     private final PasswordService passwordService;
 
-    // TO DELETE
     @Autowired
     private PasswordTokenRepository passwordTokenRepository;
 
@@ -40,23 +39,6 @@ public class UserController {
         this.userService = userService;
         this.passwordService = passwordService;
         this.userMapper = userMapper;
-    }
-
-    @GetMapping("/mail")
-    public ResponseEntity sentEmail() {
-        //       passwordService.sendMessageToUser(userService.findByEmail("t1.email@be-tse.com"));
-//        String testWP = "test12test12@wp.pl";
-//        String testGOOGLE = "beontime.test@gmail.com";
-//        UserBo userBo = new UserBo("as6ada6dad6", testGOOGLE, "Adam", "Kowalski", true, "BANKING", new ArrayList<>());
-//        passwordService.sendPasswordMessage(userBo.getEmail(), passwordService.prepareEmailContextMessage(userBo, "http://54.37.131.33/approval"));
-
-
-        PasswordTokenEntity passwordTokenEntity = new PasswordTokenEntity();
-        passwordTokenEntity.setUserEntity(userMapper.mapFromUserBo(userService.findByEmail("t1.email@be-tse.com")));
-        passwordTokenEntity.setToken(UUID.randomUUID().toString());
-        passwordTokenRepository.save(passwordTokenEntity);
-
-        return ResponseEntity.ok("POSZEDŁ EMAIL!");
     }
 
     @GetMapping()

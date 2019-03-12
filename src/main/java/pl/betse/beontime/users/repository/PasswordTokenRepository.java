@@ -6,4 +6,5 @@ import pl.betse.beontime.users.entity.UserEntity;
 
 public interface PasswordTokenRepository extends JpaRepository<PasswordTokenEntity, Long> {
     boolean existsByToken(String token);
+    PasswordTokenEntity findByToken(String token);
 }

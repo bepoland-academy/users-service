@@ -4,12 +4,16 @@ package pl.betse.beontime.users.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import pl.betse.beontime.users.bo.UserBo;
 import pl.betse.beontime.users.entity.PasswordTokenEntity;
+import pl.betse.beontime.users.entity.UserEntity;
+import pl.betse.beontime.users.exception.PasswordTokenNotFoundException;
 import pl.betse.beontime.users.repository.PasswordTokenRepository;
+import pl.betse.beontime.users.repository.UserRepository;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -22,13 +26,16 @@ public class PasswordService {
     private final JavaMailSender javaMailSender;
     private final TemplateEngine templateEngine;
     private final PasswordTokenRepository passwordTokenRepository;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public PasswordService(JavaMailSender javaMailSender, TemplateEngine templateEngine, PasswordTokenRepository passwordTokenRepository) {
+    public PasswordService(JavaMailSender javaMailSender, TemplateEngine templateEngine, PasswordTokenRepository passwordTokenRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.javaMailSender = javaMailSender;
         this.templateEngine = templateEngine;
         this.passwordTokenRepository = passwordTokenRepository;
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
-
 
     public void sendMessageToUser(UserBo userBo, String originLink) {
         StringBuilder linkBuilder = new StringBuilder();
@@ -70,4 +77,15 @@ public class PasswordService {
     }
 
 
+    public void changeUserPassword(String password, String token) {
+        if (!passwordTokenRepository.existsByToken(token)) {
+            log.error("Change password token doesn't exist.");
+            throw new PasswordTokenNotFoundException();
+        }
+        PasswordTokenEntity passwordTokenEntity = passwordTokenRepository.findByToken(token);
+        UserEntity userEntity = passwordTokenEntity.getUserEntity();
+        userEntity.setPassword(passwordEncoder.encode(password));
+        userRepository.save(userEntity);
+        passwordTokenRepository.delete(passwordTokenEntity);
+    }
 }

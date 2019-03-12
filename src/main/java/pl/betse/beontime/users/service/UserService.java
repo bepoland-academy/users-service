@@ -95,8 +95,8 @@ public class UserService {
         UserEntity userEntity = userMapper.mapFromUserBo(userBo);
         capitalizeFirstNameAndLastName(userEntity, userBo);
         userEntity.setGuid(UUID.randomUUID().toString());
-        //  SET PASSWORD FOR EVERY NEW USER (HARDCODED FOR NOW!)
-        userEntity.setPassword(passwordEncoder.encode("qwe123!"));
+        //  SET PASSWORD FOR EVERY NEW USER (HARDCODED FOR NOW!) -> Random password based on random generated UID
+        userEntity.setPassword(passwordEncoder.encode(UUID.randomUUID().toString()));
         userEntity.setDepartment(departmentRepository.findByName(userBo.getDepartment()));
         userEntity.setRoles(buildRoleEntityListFromString(userBo.getRoles()));
         userRepository.save(userEntity);
