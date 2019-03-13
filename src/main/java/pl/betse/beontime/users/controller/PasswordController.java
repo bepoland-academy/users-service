@@ -1,7 +1,5 @@
 package pl.betse.beontime.users.controller;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.betse.beontime.users.model.PasswordBody;
