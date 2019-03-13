@@ -8,15 +8,15 @@ import pl.betse.beontime.users.entity.DepartmentEntity;
 import pl.betse.beontime.users.model.DepartmentBody;
 
 @Mapper(componentModel = "spring", uses = GuidMapper.class)
-public abstract class DepartmentMapper {
+public interface DepartmentMapper {
 
     @Mappings({
             @Mapping(target = "id", source = "guid")
     })
-    public abstract DepartmentBo fromEntityToBo(DepartmentEntity departmentEntity);
+    DepartmentBo fromEntityToBo(DepartmentEntity departmentEntity);
 
     @Mappings(
             @Mapping(source = "id", target = "departmentId")
     )
-    public abstract DepartmentBody fromBoToBody(DepartmentBo departmentBo);
+    DepartmentBody fromBoToBody(DepartmentBo departmentBo);
 }

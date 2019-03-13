@@ -37,7 +37,7 @@ public class PasswordService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public void sendMessageToUser(UserBo userBo, String originLink) {
+    void sendMessageToUser(UserBo userBo, String originLink) {
         StringBuilder linkBuilder = new StringBuilder();
         linkBuilder.append(originLink);
         linkBuilder.append("/password?token=");
@@ -47,11 +47,11 @@ public class PasswordService {
                 linkBuilder.append(passwordTokenEntity.getToken());
             }
         }
-        sendPasswordMessage(userBo, prepareEmailContextMessage(userBo, linkBuilder.toString()));
+        sendPasswordMessage(userBo, linkBuilder.toString());
     }
 
 
-    public String prepareEmailContextMessage(UserBo userBo, String linkForRegistration) {
+    private String prepareEmailContextMessage(UserBo userBo, String linkForRegistration) {
         Context context = new Context();
         context.setVariable("firstName", userBo.getFirstName());
         context.setVariable("lastName", userBo.getLastName());
@@ -60,7 +60,8 @@ public class PasswordService {
     }
 
 
-    public void sendPasswordMessage(UserBo userBo, String content) {
+    private void sendPasswordMessage(UserBo userBo, String link) {
+        String content = prepareEmailContextMessage(userBo, link);
         MimeMessage message = javaMailSender.createMimeMessage();
         try {
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
@@ -70,7 +71,7 @@ public class PasswordService {
             helper.setText(content, true);
 
         } catch (MessagingException e) {
-            e.printStackTrace();
+            log.error("Message has not been sent.",e);
         }
         javaMailSender.send(message);
     }

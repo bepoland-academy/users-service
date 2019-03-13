@@ -4,7 +4,6 @@ import org.springframework.web.bind.annotation.*;
 import pl.betse.beontime.users.mapper.UserMapper;
 import pl.betse.beontime.users.model.UserBody;
 import pl.betse.beontime.users.service.LoginService;
-import pl.betse.beontime.users.service.PasswordService;
 
 @RestController
 @RequestMapping("/login")
@@ -12,12 +11,10 @@ import pl.betse.beontime.users.service.PasswordService;
 public class LoginController {
 
     private final LoginService loginService;
-    private final PasswordService passwordService;
     private final UserMapper userMapper;
 
-    public LoginController(LoginService loginService, PasswordService passwordService, UserMapper userMapper) {
+    public LoginController(LoginService loginService, UserMapper userMapper) {
         this.loginService = loginService;
-        this.passwordService = passwordService;
         this.userMapper = userMapper;
     }
 

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 public class DepartmentNotFoundException extends RuntimeException {
 
     @Getter
-    String departmentName;
+    private String departmentName;
 
     public DepartmentNotFoundException(String departmentName) {
         this.departmentName = departmentName;

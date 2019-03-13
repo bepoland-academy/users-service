@@ -1,11 +1,8 @@
 package pl.betse.beontime.users.model;
 
-
-import lombok.*;
-import org.springframework.http.HttpStatus;
+import lombok.Data;
 
 @Data
-@Builder
 public class ErrorResponse {
 
     private String message;

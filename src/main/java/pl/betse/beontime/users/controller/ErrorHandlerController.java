@@ -16,36 +16,36 @@ import java.text.MessageFormat;
 public class ErrorHandlerController extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({UserNotFoundException.class})
-    public ResponseEntity<?> sendUserNotFoundMessage(UserNotFoundException e) {
+    public ResponseEntity<ErrorResponse> sendUserNotFoundMessage(UserNotFoundException e) {
         String message = MessageFormat.format("USER WITH GUID {0} NOT FOUND.", e.getGuid());
         log.error(message);
         return new ResponseEntity<>(new ErrorResponse(message), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler({UserAlreadyExistException.class})
-    public ResponseEntity<?> sendUserExist() {
+    public ResponseEntity<ErrorResponse> sendUserExist() {
         return new ResponseEntity<>(new ErrorResponse("USER ALREADY EXISTS"), HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler({UserBadCredentialException.class})
-    public ResponseEntity<?> sendBadCredentialLogin(UserBadCredentialException e) {
+    public ResponseEntity<ErrorResponse> sendBadCredentialLogin(UserBadCredentialException e) {
         return new ResponseEntity<>(new ErrorResponse("MAIL OR PASSWORD IS WRONG."), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler({RoleNotFoundException.class})
-    public ResponseEntity<?> sendRoleDoesNotExist() {
+    public ResponseEntity<ErrorResponse> sendRoleDoesNotExist() {
         return new ResponseEntity<>(new ErrorResponse("ROLE DOES NOT EXIST"), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler({DepartmentNotFoundException.class})
-    public ResponseEntity<?> sendDepartmentDoesNotExist(DepartmentNotFoundException e) {
-        String message = MessageFormat.format("Department {0} doesn't exist", e.getDepartmentName());
+    public ResponseEntity<ErrorResponse> sendDepartmentDoesNotExist(DepartmentNotFoundException e) {
+        String message = MessageFormat.format("Department {0} does not exist", e.getDepartmentName());
         log.error(message);
         return new ResponseEntity<>(new ErrorResponse(message), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler({PasswordTokenNotFoundException.class})
-    public ResponseEntity<?> sendPasswordTokenNotFound() {
+    public ResponseEntity<ErrorResponse> sendPasswordTokenNotFound() {
         log.error("Change password token doesn't exist.");
         return new ResponseEntity<>(new ErrorResponse("SET PASSWORD TOKEN DOES NOT EXIST."), HttpStatus.NOT_FOUND);
     }

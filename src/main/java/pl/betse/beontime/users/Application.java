@@ -14,7 +14,7 @@ import org.springframework.web.filter.ForwardedHeaderFilter;
 @SpringBootApplication
 @EnableDiscoveryClient
 @LiquibaseDataSource
-@ComponentScan(basePackages = "pl.betse.beontime")
+@ComponentScan("pl.betse.beontime")
 public class Application {
 
     public static void main(String[] args) {

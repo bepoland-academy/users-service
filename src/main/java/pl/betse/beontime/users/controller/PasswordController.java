@@ -18,7 +18,9 @@ public class PasswordController {
 
     @PostMapping
     ResponseEntity changeUserPassword(@RequestParam("action") Action action, @RequestBody PasswordBody passwordBody) {
-        passwordService.setUserPassword(passwordBody.getPassword(), passwordBody.getToken());
+        if (action == Action.SET) {
+            passwordService.setUserPassword(passwordBody.getPassword(), passwordBody.getToken());
+        }
         return ResponseEntity.ok().build();
     }
 

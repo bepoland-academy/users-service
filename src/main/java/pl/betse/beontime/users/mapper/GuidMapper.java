@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @Named("guidMapper")
 @Mapper(componentModel = "spring")
-abstract class GuidMapper {
+class GuidMapper {
 
     @Named("mapGuid")
     String mapGuid(String guid) {

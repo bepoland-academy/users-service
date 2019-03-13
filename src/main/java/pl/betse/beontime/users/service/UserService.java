@@ -65,20 +65,21 @@ public class UserService {
                 .orElseThrow(() -> new DepartmentNotFoundException(userBo.getDepartment()));
         UserEntity userEntity = userMapper.fromBoToEntity(userBo);
         capitalizeFirstNameAndLastName(userEntity, userBo);
+        setupNewUserData(userBo, departmentEntity, userEntity);
+        passwordService.sendMessageToUser(userMapper.fromEntityToBo(userEntity), originUrl);
+        return userMapper.fromEntityToBo(userEntity);
+    }
 
+    private void setupNewUserData(UserBo userBo, DepartmentEntity departmentEntity, UserEntity userEntity) {
         //  SET PASSWORD FOR EVERY NEW USER, USER WILL CHANGE IT BY SENT EMAIL
         userEntity.setPassword(passwordEncoder.encode(UUID.randomUUID().toString()));
-
         userEntity.setDepartment(departmentEntity);
         userEntity.setRoles(buildRoleEntityListFromString(userBo.getRoles()));
         userRepository.save(userEntity);
-
         PasswordTokenEntity passwordTokenEntity = new PasswordTokenEntity();
         passwordTokenEntity.setUserEntity(userEntity);
         passwordTokenEntity.setToken(UUID.randomUUID().toString());
         passwordTokenRepository.save(passwordTokenEntity);
-        passwordService.sendMessageToUser(userMapper.fromEntityToBo(userEntity), originUrl);
-        return userMapper.fromEntityToBo(userEntity);
     }
 
 
