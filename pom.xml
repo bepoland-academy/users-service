@@ -26,6 +26,12 @@
         <security-library.version>1.0-SNAPSHOT</security-library.version>
         <org.mapstruct.version>1.2.0.Final</org.mapstruct.version>
         <org.projectlombok.version>1.18.2</org.projectlombok.version>
+        <mockito-junit-jupiter.version>2.24.5</mockito-junit-jupiter.version>
+        <commons-lang3.version>3.8.1</commons-lang3.version>
+        <liquibase-hibernate5.version>3.6</liquibase-hibernate5.version>
+        <liquibase-maven-plugin.version>3.6.3</liquibase-maven-plugin.version>
+        <mysql-connector-java.version>8.0.15</mysql-connector-java.version>
+        <maven-compiler-plugin.version>3.6.1</maven-compiler-plugin.version>
     </properties>
 
     <dependencies>
@@ -86,22 +92,17 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.15</version>
+            <version>${mysql-connector-java.version}</version>
         </dependency>
         <dependency>
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-maven-plugin</artifactId>
-            <version>3.6.3</version>
+            <version>${liquibase-maven-plugin.version}</version>
         </dependency>
         <dependency>
         <groupId>org.liquibase.ext</groupId>
         <artifactId>liquibase-hibernate5</artifactId>
-        <version>3.6</version>
-        </dependency>
-        <dependency>
-        <groupId>com.mchange</groupId>
-        <artifactId>c3p0</artifactId>
-        <version>0.9.5.2</version>
+        <version>${liquibase-hibernate5.version}</version>
         </dependency>
 
         <!--Another dependencies-->
@@ -114,7 +115,7 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.8.1</version>
+            <version>${commons-lang3.version}</version>
         </dependency>
         <dependency>
             <groupId>org.mapstruct</groupId>
@@ -148,13 +149,13 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>2.24.5</version>
+            <version>${mockito-junit-jupiter.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-junit-jupiter</artifactId>
-            <version>2.24.5</version>
+            <version>${mockito-junit-jupiter.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -198,7 +199,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.6.1</version>
+                <version>${maven-compiler-plugin.version}</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
