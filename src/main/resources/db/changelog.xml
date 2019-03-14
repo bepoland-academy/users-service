@@ -2,97 +2,100 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
-    <changeSet author="wkrzyzanowski (generated)" id="1551704201250-1">
-        <createTable tableName="departments">
-            <column autoIncrement="true" name="department_id" type="INT">
-                <constraints primaryKey="true"/>
-            </column>
-            <column name="name" type="VARCHAR(255)">
-                <constraints nullable="false" unique="true"/>
-            </column>
-        </createTable>
-    </changeSet>
-    <changeSet author="wkrzyzanowski (generated)" id="1551704201250-2">
-        <createTable tableName="role">
-            <column autoIncrement="true" name="role_id" type="INT">
-                <constraints primaryKey="true"/>
-            </column>
-            <column name="role" type="VARCHAR(255)">
-                <constraints nullable="false" unique="true"/>
-            </column>
-        </createTable>
-    </changeSet>
-    <changeSet author="wkrzyzanowski (generated)" id="1551704201250-3">
+
+    <changeSet id="user_service_v_1" author="wk">
         <createTable tableName="user">
-            <column autoIncrement="true" name="user_id" type="INT">
-                <constraints primaryKey="true"/>
+            <column name="user_id" autoIncrement="true" type="BIGINT">
+                <constraints primaryKey="true" unique="true" nullable="false"/>
             </column>
-            <column name="email_login" type="VARCHAR(255)">
+            <column name="active" type="VARCHAR(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(255)">
                 <constraints nullable="false" unique="true"/>
             </column>
             <column name="first_name" type="VARCHAR(255)"/>
-            <column name="is_active" type="BIT(1)">
-                <constraints nullable="false"/>
-            </column>
             <column name="last_name" type="VARCHAR(255)"/>
+            <column name="user_guid" type="VARCHAR(255)">
+                <constraints unique="true" nullable="false"/>
+            </column>
             <column name="password" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="user_guid" type="VARCHAR(255)">
+            <column name="department_id" type="BIGINT"/>
+        </createTable>
+        <createTable tableName="role">
+            <column name="role_id" autoIncrement="true" type="BIGINT">
+                <constraints primaryKey="true" unique="true" nullable="false"/>
+            </column>
+            <column name="role_name" type="VARCHAR(255)">
                 <constraints nullable="false" unique="true"/>
             </column>
-            <column name="department_id" type="INT">
+        </createTable>
+        <createTable tableName="user_role">
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role_id" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
         </createTable>
-    </changeSet>
-    <changeSet author="wkrzyzanowski (generated)" id="1551704201250-4">
-        <createTable tableName="user_roles">
-            <column name="user_id" type="INT">
-                <constraints primaryKey="true"/>
+        <addForeignKeyConstraint baseTableName="user_role" baseColumnNames="user_id" constraintName="user_role_user_fk"
+                                 referencedTableName="user"
+                                 referencedColumnNames="user_id"/>
+        <addForeignKeyConstraint baseTableName="user_role" baseColumnNames="role_id" constraintName="user_role_role_fk"
+                                 referencedTableName="role"
+                                 referencedColumnNames="role_id"/>
+        <createTable tableName="department">
+            <column name="department_id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
             </column>
-            <column name="role_id" type="INT">
-                <constraints primaryKey="true"/>
+            <column name="department_guid" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="department_name" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
             </column>
         </createTable>
-    </changeSet>
-    <changeSet author="wkrzyzanowski (generated)" id="1551704201250-5">
-        <createIndex indexName="FK7hl8wrjlq8jrgauksuce985w7" tableName="user">
+        <addForeignKeyConstraint baseTableName="user" baseColumnNames="department_id"
+                                 constraintName="user_department_fk" referencedTableName="department"
+                                 referencedColumnNames="department_id"/>
+        <createTable tableName="password_token">
+            <column name="password_token_id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" unique="true" nullable="false"/>
+            </column>
+            <column name="token" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="password_token" baseColumnNames="user_id"
+                                 constraintName="password_token_user_fk" referencedTableName="user"
+                                 referencedColumnNames="user_id"/>
+        <createIndex tableName="user" indexName="user_id_index">
+            <column name="user_id"/>
+        </createIndex>
+        <createIndex tableName="user" indexName="user_guid_index">
+            <column name="user_guid"/>
+        </createIndex>
+        <createIndex tableName="user" indexName="user_email_index">
+            <column name="email"/>
+        </createIndex>
+        <createIndex tableName="department" indexName="department_id_index">
             <column name="department_id"/>
         </createIndex>
-    </changeSet>
-    <changeSet author="wkrzyzanowski (generated)" id="1551704201250-6">
-        <createIndex indexName="FKrhfovtciq1l558cw6udg0h0d3" tableName="user_roles">
-            <column name="role_id"/>
+        <createIndex tableName="department" indexName="department_guid_index">
+            <column name="department_guid"/>
         </createIndex>
+        <sqlFile dbms="mysql"
+                 encoding="utf8"
+                 path="data.sql"
+                 relativeToChangelogFile="true"
+                 splitStatements="true"
+                 stripComments="true"/>
     </changeSet>
-    <changeSet author="wkrzyzanowski (generated)" id="1551704201250-7">
-        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="user_roles"
-                                 constraintName="FK55itppkw3i07do3h7qoclqd4k" deferrable="false"
-                                 initiallyDeferred="false" onDelete=
-                                         "NO ACTION" onUpdate="NO ACTION" referencedColumnNames="user_id"
-                                 referencedTableName="user" validate="true"/>
-    </changeSet>
-    <changeSet author="wkrzyzanowski (generated)" id="1551704201250-8">
-        <addForeignKeyConstraint baseColumnNames="department_id" baseTableName="user"
-                                 constraintName="FK7hl8wrjlq8jrgauksuce985w7" deferrable="false"
-                                 initiallyDeferred="false" onDelete=
-                                         "NO ACTION" onUpdate="NO ACTION" referencedColumnNames="department_id"
-                                 referencedTableName="departments" validate="true"/>
-    </changeSet>
-    <changeSet author="wkrzyzanowski (generated)" id="1551704201250-9">
-        <addForeignKeyConstraint baseColumnNames="role_id" baseTableName="user_roles"
-                                 constraintName="FKrhfovtciq1l558cw6udg0h0d3" deferrable="false"
-                                 initiallyDeferred="false" onDelete=
-                                         "NO ACTION" onUpdate="NO ACTION" referencedColumnNames="role_id"
-                                 referencedTableName="role" validate="true"/>
-    </changeSet>
-    <changeSet author="liquibase-docs" id="sqlFile-example">
-    <sqlFile dbms="mysql"
-    encoding="utf8"
-    path="data.sql"
-    relativeToChangelogFile="true"
-    splitStatements="true"
-    stripComments="true"/>
-    </changeSet>
+
+
 </databaseChangeLog>

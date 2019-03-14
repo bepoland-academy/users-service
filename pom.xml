@@ -24,6 +24,14 @@
         <spring-cloud.version>Greenwich.RELEASE</spring-cloud.version>
         <dockerfile-maven-plugin.version>1.4.3</dockerfile-maven-plugin.version>
         <security-library.version>1.0-SNAPSHOT</security-library.version>
+        <org.mapstruct.version>1.2.0.Final</org.mapstruct.version>
+        <org.projectlombok.version>1.18.2</org.projectlombok.version>
+        <mockito-junit-jupiter.version>2.24.5</mockito-junit-jupiter.version>
+        <commons-lang3.version>3.8.1</commons-lang3.version>
+        <liquibase-hibernate5.version>3.6</liquibase-hibernate5.version>
+        <liquibase-maven-plugin.version>3.6.3</liquibase-maven-plugin.version>
+        <mysql-connector-java.version>8.0.15</mysql-connector-java.version>
+        <maven-compiler-plugin.version>3.6.1</maven-compiler-plugin.version>
     </properties>
 
     <dependencies>
@@ -38,6 +46,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-hateoas</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -61,61 +73,58 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
-
-
         <dependency>
-            <groupId>org.liquibase</groupId>
-            <artifactId>liquibase-core</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
 
+        <!--Database dependencies-->
+        <dependency>
+        <groupId>org.liquibase</groupId>
+        <artifactId>liquibase-core</artifactId>
+        </dependency>
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.15</version>
+            <version>${mysql-connector-java.version}</version>
         </dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.liquibase/liquibase-maven-plugin -->
         <dependency>
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-maven-plugin</artifactId>
-            <version>3.6.3</version>
+            <version>${liquibase-maven-plugin.version}</version>
         </dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.8.1</version>
+        <groupId>org.liquibase.ext</groupId>
+        <artifactId>liquibase-hibernate5</artifactId>
+        <version>${liquibase-hibernate5.version}</version>
         </dependency>
 
-
-        <dependency>
-            <groupId>org.liquibase.ext</groupId>
-            <artifactId>liquibase-hibernate5</artifactId>
-            <version>3.6</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.mchange</groupId>
-            <artifactId>c3p0</artifactId>
-            <version>0.9.5.2</version>
-        </dependency>
-
+        <!--Another dependencies-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.2</version>
+            <version>${org.projectlombok.version}</version>
             <scope>provided</scope>
         </dependency>
-
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${commons-lang3.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct-jdk8</artifactId>
+            <version>${org.mapstruct.version}</version>
         </dependency>
 
 
+        <!--Test dependencies-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -140,13 +149,13 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>2.24.5</version>
+            <version>${mockito-junit-jupiter.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-junit-jupiter</artifactId>
-            <version>2.24.5</version>
+            <version>${mockito-junit-jupiter.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -187,46 +196,27 @@
                     </execution>
                 </executions>
             </plugin>
-
-            <!--<plugin>-->
-            <!--<groupId>org.apache.maven.plugins</groupId>-->
-            <!--<artifactId>maven-surefire-plugin</artifactId>-->
-            <!--<version>2.22.1</version>-->
-            <!--</plugin>-->
-
-            <!-- LIQUIBASE PLUGIN-->
-            <!--<plugin>-->
-            <!--<groupId>org.liquibase</groupId>-->
-            <!--<artifactId>liquibase-maven-plugin</artifactId>-->
-            <!--<version>3.6.3</version>-->
-            <!--<configuration>-->
-            <!--<dropFirst>true</dropFirst>-->
-            <!--<url>jdbc:mysql://localhost:3336/USERS_DB?createDatabaseIfNotExist=true&amp;serverTimezone=UTC</url>-->
-            <!--<username>root</username>-->
-            <!--<password>secret</password>-->
-            <!--<changeLogFile>src/resources/changeLogNew.xml</changeLogFile>-->
-            <!--</configuration>-->
-            <!--<dependencies>-->
-            <!--<dependency>-->
-            <!--<groupId>org.liquibase.ext</groupId>-->
-            <!--<artifactId>liquibase-hibernate5</artifactId>-->
-            <!--<version>3.6</version>-->
-            <!--</dependency>-->
-            <!--<dependency>-->
-            <!--<groupId>org.springframework</groupId>-->
-            <!--<artifactId>spring-beans</artifactId>-->
-            <!--<version>LATEST</version>-->
-            <!--</dependency>-->
-            <!--<dependency>-->
-            <!--<groupId>org.springframework.data</groupId>-->
-            <!--<artifactId>spring-data-jpa</artifactId>-->
-            <!--<version>LATEST</version>-->
-            <!--</dependency>-->
-            <!--</dependencies>-->
-            <!--</plugin>-->
-
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>${org.mapstruct.version}</version>
+                        </path>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${org.projectlombok.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
-
-
 </project>
