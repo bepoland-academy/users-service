@@ -13,7 +13,7 @@ public abstract class UserMapper {
 
     @Mappings({
             @Mapping(target = "userId", source = "guid"),
-            @Mapping(target = "department", source = "department.name")
+            @Mapping(target = "department", source = "department.guid")
     })
     public abstract UserBo fromEntityToBo(UserEntity userEntity);
 
