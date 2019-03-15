@@ -61,7 +61,7 @@ public class UserService {
             log.error("User with email {} currently exist in database", userBo.getEmail());
             throw new UserAlreadyExistException();
         }
-        DepartmentEntity departmentEntity = departmentRepository.findByName(userBo.getDepartment())
+        DepartmentEntity departmentEntity = departmentRepository.findByGuid(userBo.getDepartment())
                 .orElseThrow(() -> new DepartmentNotFoundException(userBo.getDepartment()));
         UserEntity userEntity = userMapper.fromBoToEntity(userBo);
         capitalizeFirstNameAndLastName(userEntity, userBo);

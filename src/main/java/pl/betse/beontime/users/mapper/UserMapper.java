@@ -27,7 +27,7 @@ public abstract class UserMapper {
 
     @Mappings({
             @Mapping(target = "guid", source = "userId", qualifiedByName = "mapGuid"),
-            @Mapping(target = "department.name", source = "department")
+            @Mapping(target = "department.guid", source = "department")
     })
     public abstract UserEntity fromBoToEntity(UserBo userBo);
 
