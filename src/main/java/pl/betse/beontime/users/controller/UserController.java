@@ -24,9 +24,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 @CrossOrigin("*")
 public class UserController {
 
-    private static final String X_FORWARDED_PROTO = "x-forwarded-proto";
     private static final String SCHEMA_SEPARATOR = "://";
-    private static final String X_FORWARDED_HOST = "x-forwarded-host";
 
     private final UserService userService;
     private final UserMapper userMapper;
@@ -72,6 +70,6 @@ public class UserController {
     }
 
     private String buildOriginRequestUrl(HttpServletRequest httpServletRequest) {
-        return httpServletRequest.getHeader(X_FORWARDED_PROTO) + SCHEMA_SEPARATOR + httpServletRequest.getHeader(X_FORWARDED_HOST);
+        return httpServletRequest.getScheme() + SCHEMA_SEPARATOR + httpServletRequest.getRemoteHost();
     }
 }
