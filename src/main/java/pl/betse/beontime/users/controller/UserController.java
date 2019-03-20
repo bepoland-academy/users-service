@@ -25,6 +25,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 public class UserController {
 
     private static final String SCHEMA_SEPARATOR = "://";
+    private static final String BEONTIME_DOMAIN = "beontime.be-academy.pl";
 
     private final UserService userService;
     private final UserMapper userMapper;
@@ -70,6 +71,6 @@ public class UserController {
     }
 
     private String buildOriginRequestUrl(HttpServletRequest httpServletRequest) {
-        return httpServletRequest.getScheme() + SCHEMA_SEPARATOR + httpServletRequest.getRemoteHost();
+        return httpServletRequest.getScheme() + SCHEMA_SEPARATOR + BEONTIME_DOMAIN;
     }
 }
