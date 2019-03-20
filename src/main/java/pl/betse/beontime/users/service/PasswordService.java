@@ -2,6 +2,7 @@ package pl.betse.beontime.users.service;
 
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,11 +18,15 @@ import pl.betse.beontime.users.repository.UserRepository;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 @Slf4j
 @Service
 public class PasswordService {
+
+    @Value("${administration.email}")
+    private String ADMINISTRATION_EMAIL;
 
     private final JavaMailSender javaMailSender;
     private final TemplateEngine templateEngine;
@@ -65,13 +70,15 @@ public class PasswordService {
         MimeMessage message = javaMailSender.createMimeMessage();
         try {
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setFrom(ADMINISTRATION_EMAIL, "BeOnTime Administration Team");
             helper.setTo(userBo.getEmail());
-            helper.setReplyTo(userBo.getEmail());
             helper.setSubject("[BeOnTime] Please setup password for your account.");
             helper.setText(content, true);
 
         } catch (MessagingException e) {
-            log.error("Message has not been sent.",e);
+            log.error("Message has not been sent.", e);
+        } catch (UnsupportedEncodingException e) {
+            log.error("Wrong text decoding.", e);
         }
         javaMailSender.send(message);
     }
