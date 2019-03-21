@@ -37,10 +37,17 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<Resources<UserBody>> getAllUsers() {
-        List<UserBody> users = userService.findAll().stream()
-                .map(userMapper::fromBoToBody)
-                .collect(Collectors.toList());
+    public ResponseEntity<Resources<UserBody>> getAllUsers(@RequestParam(name = "department", required = false) String department) {
+        List<UserBody> users;
+        if (department != null && !department.isEmpty()) {
+            users = userService.findByDepartment(department).stream()
+                    .map(userMapper::fromBoToBody)
+                    .collect(Collectors.toList());
+        } else {
+            users = userService.findAll().stream()
+                    .map(userMapper::fromBoToBody)
+                    .collect(Collectors.toList());
+        }
         users.forEach(this::addLinks);
         return ResponseEntity.ok(new Resources<>(users));
     }
