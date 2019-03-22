@@ -50,6 +50,13 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
+    public List<UserBo> findByDepartment(String department) {
+        DepartmentEntity departmentEntity = departmentRepository.findByGuid(department).orElseThrow(DepartmentNotFoundException::new);
+        return userRepository.findByDepartment(departmentEntity).stream()
+                .map(userMapper::fromEntityToBo)
+                .collect(Collectors.toList());
+    }
+
     public UserBo findByGuid(String guid) {
         UserEntity userEntity = userRepository.findByGuid(guid)
                 .orElseThrow(() -> new UserNotFoundException(guid));
@@ -124,4 +131,6 @@ public class UserService {
             userEntity.setLastName(capitalizeStringValue(userBo.getLastName()));
         }
     }
+
+
 }
