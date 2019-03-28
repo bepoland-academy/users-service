@@ -1,5 +1,7 @@
 package pl.betse.beontime.users.controller;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +15,7 @@ import pl.betse.beontime.users.validation.CreateUserValidation;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,6 +29,9 @@ public class UserController {
 
     private static final String SCHEMA_SEPARATOR = "://";
     private static final String BEONTIME_DOMAIN = "beontime.be-academy.pl";
+
+    @Value("${api-prefix}")
+    private String API_PREFIX;
 
     private final UserService userService;
     private final UserMapper userMapper;
@@ -60,11 +66,11 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity createNewUser(@RequestBody @Validated(CreateUserValidation.class) UserBody userBody, HttpServletRequest httpServletRequest) {
+    public ResponseEntity createNewUser(@RequestBody @Validated(CreateUserValidation.class) UserBody userBody, HttpServletRequest httpServletRequest) throws URISyntaxException {
         String originLink = buildOriginRequestUrl(httpServletRequest);
         UserBo userBo = userService.createUser(userMapper.mapFromUserToUserBo(userBody), originLink);
         URI location = linkTo(methodOn(UserController.class).getUserByGuid(userBo.getUserId())).toUri();
-        return ResponseEntity.created(location).build();
+        return ResponseEntity.created(new URI(API_PREFIX+location.getPath())).build();
     }
 
     @PutMapping(path = "/{guid}")
@@ -74,10 +80,16 @@ public class UserController {
     }
 
     private void addLinks(UserBody userBody) {
-        userBody.add(linkTo(methodOn(UserController.class).getUserByGuid(userBody.getUserId())).withSelfRel());
+        Link link = constructLink(userBody.getUserId());
+        userBody.add(link);
     }
 
     private String buildOriginRequestUrl(HttpServletRequest httpServletRequest) {
         return httpServletRequest.getScheme() + SCHEMA_SEPARATOR + BEONTIME_DOMAIN;
+    }
+
+    private Link constructLink(String userGuid) {
+        URI location = linkTo(methodOn(UserController.class).getUserByGuid(userGuid)).toUri();
+        return new Link(API_PREFIX + location.getPath()).withSelfRel();
     }
 }
